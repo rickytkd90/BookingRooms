@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseRepository\IRepository.cs" />
+    <Compile Include="BaseRepository\Repository.cs" />
     <Compile Include="Booking.cs">
       <DependentUpon>BookingRooms.tt</DependentUpon>
     </Compile>
@@ -57,11 +59,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BookingRooms.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="BookingRooms.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BookingRooms.tt</DependentUpon>
     </Compile>
     <Compile Include="BookingRooms.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -75,9 +72,19 @@
       <DependentUpon>BookingRooms.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\Booking\BookingRepository.cs" />
+    <Compile Include="Repository\Booking\IBookingRepository.cs" />
+    <Compile Include="Repository\Building\BuildingRepository.cs" />
+    <Compile Include="Repository\Building\IBuildingRepository.cs" />
+    <Compile Include="Repository\Employee\EmployeeRepository.cs" />
+    <Compile Include="Repository\Employee\IEmployeeRepository.cs" />
+    <Compile Include="Repository\Room\IRoomRepository.cs" />
+    <Compile Include="Repository\Room\RoomRepository.cs" />
     <Compile Include="Room.cs">
       <DependentUpon>BookingRooms.tt</DependentUpon>
     </Compile>
+    <Compile Include="UnitOfWork\IUnitOfWork.cs" />
+    <Compile Include="UnitOfWork\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -105,5 +112,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
