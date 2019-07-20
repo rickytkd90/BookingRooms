@@ -40,6 +40,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,11 +50,60 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Booking.cs">
+      <DependentUpon>BookingRooms.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BookingRooms.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookingRooms.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BookingRooms.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookingRooms.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BookingRooms.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookingRooms.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Building.cs">
+      <DependentUpon>BookingRooms.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Employee.cs">
+      <DependentUpon>BookingRooms.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Room.cs">
+      <DependentUpon>BookingRooms.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EntityDeploy Include="BookingRooms.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BookingRooms.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="BookingRooms.edmx.diagram">
+      <DependentUpon>BookingRooms.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BookingRooms.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BookingRooms.edmx</DependentUpon>
+      <LastGenOutput>BookingRooms.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="BookingRooms.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BookingRooms.edmx</DependentUpon>
+      <LastGenOutput>BookingRooms.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
