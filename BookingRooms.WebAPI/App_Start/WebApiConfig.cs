@@ -11,6 +11,9 @@ namespace BookingRooms.WebAPI
         {
             // Web API configuration and services
 
+            // CORS
+            config.EnableCors();
+
             // Web API routes
             config.MapHttpAttributeRoutes();
 
