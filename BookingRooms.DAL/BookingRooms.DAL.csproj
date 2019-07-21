@@ -72,14 +72,14 @@
       <DependentUpon>BookingRooms.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\Booking\BookingRepository.cs" />
-    <Compile Include="Repository\Booking\IBookingRepository.cs" />
-    <Compile Include="Repository\Building\BuildingRepository.cs" />
-    <Compile Include="Repository\Building\IBuildingRepository.cs" />
-    <Compile Include="Repository\Employee\EmployeeRepository.cs" />
-    <Compile Include="Repository\Employee\IEmployeeRepository.cs" />
-    <Compile Include="Repository\Room\IRoomRepository.cs" />
-    <Compile Include="Repository\Room\RoomRepository.cs" />
+    <Compile Include="Repositories\BookingRepository\BookingRepository.cs" />
+    <Compile Include="Repositories\BookingRepository\IBookingRepository.cs" />
+    <Compile Include="Repositories\BuildingRepository\BuildingRepository.cs" />
+    <Compile Include="Repositories\BuildingRepository\IBuildingRepository.cs" />
+    <Compile Include="Repositories\EmployeeRepository\EmployeeRepository.cs" />
+    <Compile Include="Repositories\EmployeeRepository\IEmployeeRepository.cs" />
+    <Compile Include="Repositories\RoomRepository\IRoomRepository.cs" />
+    <Compile Include="Repositories\RoomRepository\RoomRepository.cs" />
     <Compile Include="Room.cs">
       <DependentUpon>BookingRooms.tt</DependentUpon>
     </Compile>

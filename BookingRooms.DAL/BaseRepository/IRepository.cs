@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookingRooms.DAL.BaseRepository
+namespace BookingRooms.DAL
 {
     public interface IRepository<TEntity> where TEntity : class
     {

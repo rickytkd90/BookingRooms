@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BookingRooms.BL.Managers;
+using BookingRooms.BL.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,5 +14,48 @@ namespace BookingRooms.WebAPI.Controllers
     [RoutePrefix("api/employee")]
     public class EmployeeController : ApiController
     {
+        private readonly IEmployeeManager _employeeManager;
+
+        public EmployeeController() { }
+
+        public EmployeeController
+        (
+            IEmployeeManager employeeManager
+        )
+        {
+            _employeeManager = employeeManager;
+        }
+
+        [Route("get/{id:int}")]
+        [HttpGet]
+        public IHttpActionResult GetResource(int id)
+        {
+            var result = _employeeManager.GetEmployeeById(id);
+
+            if (result != null)
+                return Ok(result);
+            else
+                return NotFound();
+        }
+
+        [Route("get/all")]
+        [HttpGet]
+        public IHttpActionResult GetResources()
+        {
+            var result = _employeeManager.GetEmployees();
+
+            if (result != null)
+                return Ok(result);
+            else
+                return NotFound();
+        }
+
+        //POST
+        [Route("insert")]
+        [HttpPost]
+        public void InsertNewResource(EmployeeDto employee)
+        {
+            _employeeManager.InsertEmployee(employee);
+        }
     }
 }

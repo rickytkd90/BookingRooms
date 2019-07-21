@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,16 +42,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Managers\Booking\BookingManager.cs" />
-    <Compile Include="Managers\Booking\IBookingManager.cs" />
-    <Compile Include="Managers\Building\BuildingManager.cs" />
-    <Compile Include="Managers\Building\IBuildingManager.cs" />
-    <Compile Include="Managers\Employee\EmployeeManager.cs" />
-    <Compile Include="Managers\Employee\IEmployeeManager.cs" />
-    <Compile Include="Managers\Room\IRoomManager.cs" />
-    <Compile Include="Managers\Room\RoomManager.cs" />
+    <Compile Include="Managers\BookingManager\BookingManager.cs" />
+    <Compile Include="Managers\BookingManager\IBookingManager.cs" />
+    <Compile Include="Managers\BuildingManager\BuildingManager.cs" />
+    <Compile Include="Managers\BuildingManager\IBuildingManager.cs" />
+    <Compile Include="Managers\EmployeeManager\EmployeeManager.cs" />
+    <Compile Include="Managers\EmployeeManager\IEmployeeManager.cs" />
+    <Compile Include="Managers\RoomManager\IRoomManager.cs" />
+    <Compile Include="Managers\RoomManager\RoomManager.cs" />
+    <Compile Include="Model\EmployeeDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BookingRooms.DAL\BookingRooms.DAL.csproj">
+      <Project>{A41F982E-430A-4AA0-AADA-8DE42E765F18}</Project>
+      <Name>BookingRooms.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

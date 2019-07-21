@@ -1,11 +1,11 @@
-﻿using BookingRooms.DAL.Repository;
+﻿using BookingRooms.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookingRooms.DAL.UnitOfWork
+namespace BookingRooms.DAL
 {
     public class UnitOfWork : IDisposable, IUnitOfWork
     {

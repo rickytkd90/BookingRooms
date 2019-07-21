@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookingRooms.BL.Managers.Building
+namespace BookingRooms.BL.Managers
 {
-    interface IBuildingManager
+    public class RoomManager : IRoomManager
     {
     }
 }

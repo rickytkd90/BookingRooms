@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookingRooms.DAL.BaseRepository
+namespace BookingRooms.DAL
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
