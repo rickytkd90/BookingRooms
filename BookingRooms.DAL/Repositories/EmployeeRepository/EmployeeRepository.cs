@@ -8,7 +8,8 @@ namespace BookingRooms.DAL.Repositories
 {
     public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
     {
-        public EmployeeRepository(BookingRoomsEntities dbContext) : base(dbContext) { }
+
+        public EmployeeRepository(BookingRoomsEntities dbContext) : base(dbContext) {}
 
         public Employee GetEmployeeByUsername(string username)
         {

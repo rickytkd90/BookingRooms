@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookingRooms.BL.Managers
 {
-    interface IBuildingManager
+    public interface IBuildingManager
     {
     }
 }

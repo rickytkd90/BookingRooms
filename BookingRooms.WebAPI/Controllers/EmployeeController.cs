@@ -16,8 +16,6 @@ namespace BookingRooms.WebAPI.Controllers
     {
         private readonly IEmployeeManager _employeeManager;
 
-        public EmployeeController() { }
-
         public EmployeeController
         (
             IEmployeeManager employeeManager
