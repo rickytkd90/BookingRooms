@@ -291,6 +291,10 @@
       <Project>{4442FEEE-ED2C-49F8-8F03-95A5CE0BB047}</Project>
       <Name>BookingRooms.BL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BookingRooms.Common\BookingRooms.Common.csproj">
+      <Project>{AFB6F415-CC8E-4BB0-B9DD-AC65953D3A5E}</Project>
+      <Name>BookingRooms.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

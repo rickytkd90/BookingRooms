@@ -112,6 +112,11 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BookingRooms.Common\BookingRooms.Common.csproj">
+      <Project>{afb6f415-cc8e-4bb0-b9dd-ac65953d3a5e}</Project>
+      <Name>BookingRooms.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

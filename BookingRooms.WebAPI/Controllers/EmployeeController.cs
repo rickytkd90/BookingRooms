@@ -1,5 +1,6 @@
 ﻿using BookingRooms.BL.Managers;
 using BookingRooms.BL.Model;
+using BookingRooms.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
