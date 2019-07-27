@@ -21,6 +21,7 @@ namespace BookingRooms.BL.Managers
 
         public void InsertEmployee(EmployeeDto employee)
         {
+
             if(employee != null)
             {
 
@@ -37,10 +38,13 @@ namespace BookingRooms.BL.Managers
                     Name = employee.Name,
                     Surname = employee.Surname,
                     Username = GenerateUsername(employee.Name, employee.Surname),
-                    EmailAddress = GenerateEmailAddress(employee.Name, employee.Surname)
+                    EmailAddress = GenerateEmailAddress(employee.Name, employee.Surname),
+                    CreatedOn = DateTime.Now,
+                    UpdatedOn = DateTime.Now
                 };
 
                 _employeeRepository.Insert(newEmployee);
+
             };
         }
 
