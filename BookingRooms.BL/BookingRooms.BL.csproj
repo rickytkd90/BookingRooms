@@ -52,6 +52,7 @@
     <Compile Include="Managers\RoomManager\RoomManager.cs" />
     <Compile Include="Model\BuildingDto.cs" />
     <Compile Include="Model\EmployeeDto.cs" />
+    <Compile Include="Model\RoomDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
