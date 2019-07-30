@@ -29,6 +29,7 @@ namespace BookingRooms.BL.Managers
                     Id = room.Id,
                     Name = room.Name,
                     SeatsNumber = room.SeatsNumber,
+                    IsAvailable = true,
                     CreatedOn = DateTime.Now,
                     UpdatedOn = DateTime.Now
                 };

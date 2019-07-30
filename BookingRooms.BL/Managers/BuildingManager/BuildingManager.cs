@@ -29,6 +29,7 @@ namespace BookingRooms.BL.Managers
                     Name = building.Name,
                     Address = building.Address,
                     City = building.City,
+                    IsAvailable = true,
                     CreatedOn = DateTime.Now,
                     UpdatedOn = DateTime.Now
                 };

@@ -39,6 +39,7 @@ namespace BookingRooms.BL.Managers
                     Surname = employee.Surname,
                     Username = GenerateUsername(employee.Name, employee.Surname),
                     EmailAddress = GenerateEmailAddress(employee.Name, employee.Surname),
+                    IsAvailable = true,
                     CreatedOn = DateTime.Now,
                     UpdatedOn = DateTime.Now
                 };
