@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BookingRooms.BL.Model;
+using BookingRooms.Common;
 using BookingRooms.DAL;
 using BookingRooms.DAL.Repositories;
 
@@ -19,34 +20,72 @@ namespace BookingRooms.BL.Managers
             _employeeRepository = new UnitOfWork().EmployeeRepository;
         }
 
+        private EmployeeDto MapTo(Employee e)
+        {
+            return new EmployeeDto()
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Surname = e.Surname,
+                Username = e.Username,
+                EmailAddress = e.EmailAddress,
+                IsAvailable = e.IsAvailable,
+                CreatedOn = e.CreatedOn.Value,
+                UpdatedOn = e.UpdatedOn.Value
+            };
+        }
+
+        private Employee MapFrom(EmployeeDto e)
+        {
+            return new Employee()
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Surname = e.Surname,
+                Username = e.Username,
+                EmailAddress = e.EmailAddress,
+                IsAvailable = e.IsAvailable,
+                CreatedOn = e.CreatedOn,
+                UpdatedOn = e.UpdatedOn
+            };
+        }
+
         public void InsertEmployee(EmployeeDto employee)
         {
-
-            if(employee != null)
+            try
             {
+                //check if already exist employee with the same id
+                var e = _employeeRepository.GetById(employee.Id);
 
-                //check Id
-                Employee e = _employeeRepository.GetById(employee.Id);
-                if (e != null)
+                if (e == null)
                 {
-                    throw new ArgumentException($"Identificativo già presente. Utilizzare un altro valore (Suggerito: {_employeeRepository.GetNewId()}", "Employee.Id");
+                    Employee newEmployee = new Employee()
+                    {
+                        Id = employee.Id,
+                        Name = employee.Name,
+                        Surname = employee.Surname,
+                        Username = GenerateUsername(employee.Name, employee.Surname),
+                        EmailAddress = GenerateEmailAddress(employee.Name, employee.Surname),
+                        IsAvailable = true,
+                        CreatedOn = DateTime.Now,
+                        UpdatedOn = DateTime.Now
+                    };
+
+                    _employeeRepository.Insert(newEmployee);
+
+                    LogManager.Debug($"Inserita nuova risorsa (Id:{newEmployee.Id}, Username:{newEmployee.Username}, Email:{newEmployee.EmailAddress})");
+
                 }
-
-                Employee newEmployee = new Employee()
+                else
                 {
-                    Id = employee.Id,
-                    Name = employee.Name,
-                    Surname = employee.Surname,
-                    Username = GenerateUsername(employee.Name, employee.Surname),
-                    EmailAddress = GenerateEmailAddress(employee.Name, employee.Surname),
-                    IsAvailable = true,
-                    CreatedOn = DateTime.Now,
-                    UpdatedOn = DateTime.Now
-                };
-
-                _employeeRepository.Insert(newEmployee);
-
-            };
+                    LogManager.Warning($"Esiste già una risors con id:{employee.Id}");
+                }
+            }
+            catch(Exception ex)
+            {
+                LogManager.Error(ex.Message);
+            }
+            
         }
 
         public string GenerateUsername(string name, string surname)
@@ -84,33 +123,12 @@ namespace BookingRooms.BL.Managers
 
         public EmployeeDto GetEmployeeById(int id)
         {
-            Employee e = _employeeRepository.GetById(id);
-
-            return new EmployeeDto()
-            {
-                Id = e.Id,
-                Name = e.Name,
-                Surname = e.Surname,
-                UserName = e.Username,
-                EmailAddress = e.EmailAddress,
-                IsAvailable = e.IsAvailable,
-                CreatedOn = e.CreatedOn.Value,
-                UpdatedOn = e.UpdatedOn.Value
-            };
+            return MapTo(_employeeRepository.GetById(id));
         }
 
         public IEnumerable<EmployeeDto> GetEmployees()
         {
-            return _employeeRepository.GetAll().Select(e => new EmployeeDto() {
-                Id = e.Id,
-                Name = e.Name,
-                Surname = e.Surname,
-                UserName = e.Username,
-                EmailAddress = e.EmailAddress,
-                IsAvailable = e.IsAvailable,
-                CreatedOn = e.CreatedOn.Value,
-                UpdatedOn = e.UpdatedOn.Value
-            });
+            return _employeeRepository.GetAll().Select(e => MapTo(e));
         }
     }
 }

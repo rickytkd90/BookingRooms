@@ -18,12 +18,20 @@ namespace BookingRooms.DAL
             dbSet = dbContext.Set<TEntity>();
         }
 
+        /// <summary>
+        /// Delete a record from the database
+        /// </summary>
+        /// <param name="entity">Record to delete</param>
         public void Delete(TEntity entity)
         {
             dbSet.Remove(entity);
             dbContext.SaveChanges();
         }
 
+        /// <summary>
+        /// Delete a record from the database by Id
+        /// </summary>
+        /// <param name="id"></param>
         public void DeleteById(int id)
         {
             TEntity entity = dbSet.Find(id);
@@ -36,17 +44,32 @@ namespace BookingRooms.DAL
             return dbSet.AsEnumerable();
         }
 
+        /// <summary>
+        /// Retrieve a record by id
+        /// </summary>
+        /// <param name="id">Entity id</param>
+        /// <returns></returns>
         public TEntity GetById(int id)
         {
             return dbSet.Find(id);
         }
 
+        /// <summary>
+        /// Insert a record in the database
+        /// </summary>
+        /// <param name="entity">Record to insert in the database</param>
         public void Insert(TEntity entity)
         {
             dbSet.Add(entity);
             dbContext.SaveChanges();
         }
 
+        /// <summary>
+        /// Insert a record in the database and retrieve the record inserted
+        /// </summary>
+        /// <param name="entity">Record to insert in the database</param>
+        /// <returns></returns>
+        [Obsolete]
         public TEntity InsertAndGet(TEntity entity)
         {
             dbSet.Add(entity);
@@ -54,6 +77,10 @@ namespace BookingRooms.DAL
             return entity;
         }
 
+        /// <summary>
+        /// Update the record in the database
+        /// </summary>
+        /// <param name="entity">Record to update</param>
         public void Update(TEntity entity)
         {
             dbSet.Attach(entity);

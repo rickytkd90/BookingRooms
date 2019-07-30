@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BookingRooms.BL.Model;
+using BookingRooms.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,6 @@ namespace BookingRooms.BL.Managers
 {
     public interface IBookingManager
     {
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BookingRooms.BL.Model;
+using BookingRooms.Common;
 using BookingRooms.DAL;
 using BookingRooms.DAL.Repositories;
 using System;
@@ -18,31 +19,8 @@ namespace BookingRooms.BL.Managers
             _roomRepository = new UnitOfWork().RoomRepository;
         }
 
-        public void InsertRoom(RoomDto room)
+        private RoomDto MapTo(Room r)
         {
-
-            if (room != null)
-            {
-
-                Room newRoom = new Room()
-                {
-                    Id = room.Id,
-                    Name = room.Name,
-                    SeatsNumber = room.SeatsNumber,
-                    IsAvailable = true,
-                    CreatedOn = DateTime.Now,
-                    UpdatedOn = DateTime.Now
-                };
-
-                _roomRepository.Insert(newRoom);
-
-            };
-        }
-
-        public RoomDto GetRoomById(int id)
-        {
-            Room r = _roomRepository.GetById(id);
-
             return new RoomDto()
             {
                 Id = r.Id,
@@ -54,17 +32,65 @@ namespace BookingRooms.BL.Managers
             };
         }
 
-        public IEnumerable<RoomDto> GetRooms()
+        private Room MapFrom(RoomDto r)
         {
-            return _roomRepository.GetAll().Select(r => new RoomDto()
+            return new Room()
             {
                 Id = r.Id,
                 Name = r.Name,
                 SeatsNumber = r.SeatsNumber,
                 IsAvailable = r.IsAvailable,
-                CreatedOn = r.CreatedOn.Value,
-                UpdatedOn = r.UpdatedOn.Value
-            });
+                CreatedOn = r.CreatedOn,
+                UpdatedOn = r.UpdatedOn
+            };
+        }
+
+
+        public void InsertRoom(RoomDto r)
+        {
+            try
+            {
+                //check if exist room with the same name
+                var exist = _roomRepository.GetAll().Any(x => x.Name == r.Name);
+
+                if (!exist)
+                {
+                    var newR = new Room()
+                    {
+                        Id = r.Id,
+                        Name = r.Name,
+                        SeatsNumber = r.SeatsNumber,
+                        IsAvailable = true,
+                        CreatedOn = DateTime.Now,
+                        UpdatedOn = DateTime.Now
+                    };
+
+                    _roomRepository.Insert(newR);
+
+                    LogManager.Debug($"Inserita nuova stanza (Name:{newR.Name})");
+
+                }
+                else
+                {
+                    LogManager.Warning($"E' già presente una stanza con nome {r.Name})");
+                }
+
+            }
+            catch(Exception ex)
+            {
+                LogManager.Error(ex.Message);
+            }
+
+        }
+
+        public RoomDto GetRoomById(int id)
+        {
+            return MapTo(_roomRepository.GetById(id));
+        }
+
+        public IEnumerable<RoomDto> GetRooms()
+        {
+            return _roomRepository.GetAll().Select(r => MapTo(r));
         }
     }
 }
