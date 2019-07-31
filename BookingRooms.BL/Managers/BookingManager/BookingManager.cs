@@ -93,6 +93,7 @@ namespace BookingRooms.BL.Managers
             catch(Exception ex)
             {
                 LogManager.Error(ex.Message);
+                throw ex;
             }
 
             return result;
@@ -109,9 +110,10 @@ namespace BookingRooms.BL.Managers
             {
                 _bookingRepository.DeleteById(id);
             }
-            catch(Exception)
+            catch(Exception ex)
             {
                 LogManager.Error($"Impossibile cancellare la prenotazione (id:{id}");
+                throw ex;
             }
            
         }

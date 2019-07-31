@@ -84,6 +84,7 @@ namespace BookingRooms.BL.Managers
             catch(Exception ex)
             {
                 LogManager.Error(ex.Message);
+                throw ex;
             }
             
         }

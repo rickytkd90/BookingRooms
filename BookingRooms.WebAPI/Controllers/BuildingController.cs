@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.Description;
 
 namespace BookingRooms.WebAPI.Controllers
 {
@@ -14,6 +15,9 @@ namespace BookingRooms.WebAPI.Controllers
     [RoutePrefix("api/building")]
     public class BuildingController : ApiController
     {
+
+        #region .ctor
+
         private readonly IBuildingManager _buildingManager;
 
         public BuildingController
@@ -24,34 +28,52 @@ namespace BookingRooms.WebAPI.Controllers
             _buildingManager = buildingManager;
         }
 
+        #endregion
+
+        /// <summary>
+        /// Get Building by Id
+        /// </summary>
+        /// <param name="id">BuildingId</param>
+        /// <returns>Buildng item</returns>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("get/{id:int}")]
+        [ResponseType(typeof(BuildingDto))]
         [HttpGet]
-        public IHttpActionResult GetResource(int id)
+        public IHttpActionResult GetBuilding(int id)
         {
             var result = _buildingManager.GetBuildingById(id);
-
-            if (result != null)
-                return Ok(result);
-            else
-                return NotFound();
+            return Ok(result);
         }
 
+        /// <summary>
+        /// Get Buildings list
+        /// </summary>
+        /// <returns>Building list</returns>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("get/all")]
+        [ResponseType(typeof(IEnumerable<BuildingDto>))]
         [HttpGet]
-        public IHttpActionResult GetResources()
+        public IHttpActionResult GetBuildings()
         {
             var result = _buildingManager.GetBuildings();
-
-            if (result != null)
-                return Ok(result);
-            else
-                return NotFound();
+            return Ok(result);
         }
 
-        //POST
+        /// <summary>
+        /// Insert new Building
+        /// </summary>
+        /// <param name="building">Building item</param>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("insert")]
+        [ResponseType(typeof(void))]
         [HttpPost]
-        public void InsertNewResource(BuildingDto building)
+        public void InsertNewBuilding(BuildingDto building)
         {
             _buildingManager.InsertBuilding(building);
         }

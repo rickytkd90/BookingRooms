@@ -10,6 +10,8 @@ namespace BookingRooms.BL.Managers
 {
     public interface IBookingManager
     {
-
+        void InsertBooking(BookingDto booking);
+        BookingDto GetBookingById(int id);
+        IEnumerable<BookingDto> GetBookings();
     }
 }
