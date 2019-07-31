@@ -70,7 +70,7 @@ namespace BookingRooms.WebAPI.Controllers
         /// <response code="200">OK</response>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
-        [Route("insert")]
+        [Route("add")]
         [ResponseType(typeof(void))]
         [HttpPost]
         public void InsertNewBuilding(BuildingDto building)
