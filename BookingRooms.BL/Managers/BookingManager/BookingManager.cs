@@ -5,11 +5,6 @@ using BookingRooms.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BookingRooms.BL.Model;
-using BookingRooms.DAL;
-using BookingRooms.DAL.Repositories;
 
 namespace BookingRooms.BL.Managers
 {
@@ -26,7 +21,7 @@ namespace BookingRooms.BL.Managers
         {
             return new BookingDto()
             {
-                Id = b.id,
+                Id = b.Id,
                 EmployeeId = b.EmployeeId,
                 RoomId = b.RoomId,
                 Description = b.Description,
@@ -41,7 +36,7 @@ namespace BookingRooms.BL.Managers
         {
             return new Booking()
             {
-                id = b.Id,
+                Id = b.Id,
                 EmployeeId = b.EmployeeId,
                 RoomId = b.RoomId,
                 Description = b.Description,
@@ -63,7 +58,7 @@ namespace BookingRooms.BL.Managers
             {
                 Booking newB = new Booking()
                 {
-                    id = b.Id,
+                    Id = b.Id,
                     EmployeeId = b.EmployeeId,
                     RoomId = b.RoomId,
                     Description = b.Description,
