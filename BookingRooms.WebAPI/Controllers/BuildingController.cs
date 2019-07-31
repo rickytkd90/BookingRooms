@@ -44,6 +44,10 @@ namespace BookingRooms.WebAPI.Controllers
         public IHttpActionResult GetBuilding(int id)
         {
             var result = _buildingManager.GetBuildingById(id);
+
+            if(result==null)
+                return NotFound();
+
             return Ok(result);
         }
 
@@ -59,8 +63,7 @@ namespace BookingRooms.WebAPI.Controllers
         [HttpGet]
         public IHttpActionResult GetBuildings()
         {
-            var result = _buildingManager.GetBuildings();
-            return Ok(result);
+            return Ok(_buildingManager.GetBuildings());
         }
 
         /// <summary>

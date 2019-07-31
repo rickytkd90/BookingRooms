@@ -21,6 +21,7 @@ namespace BookingRooms.DAL
         {
             _dbContext = new BookingRoomsEntities();
             _dbContext.Configuration.LazyLoadingEnabled = false;
+            var instance = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
         }
 
         public IBookingRepository BookingRepository

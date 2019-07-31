@@ -82,7 +82,12 @@ namespace BookingRooms.BL.Managers
 
         public BuildingDto GetBuildingById(int id)
         {
-            return MapTo(_buildingRepository.GetById(id));
+            var b = _buildingRepository.GetById(id);
+
+            if (b != null)
+                return MapTo(b);
+
+            return null;
         }
 
         public IEnumerable<BuildingDto> GetBuildings()

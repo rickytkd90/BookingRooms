@@ -9,7 +9,7 @@ namespace BookingRooms.Common
 {
     public class LogManager
     {
-        private static readonly ILog log = log4net.LogManager.GetLogger("Reti.SiWEB3");
+        private static readonly ILog log = log4net.LogManager.GetLogger("BookingRooms");
 
         public static void Error(Exception ex)
         {

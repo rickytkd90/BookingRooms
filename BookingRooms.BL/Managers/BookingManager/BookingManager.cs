@@ -49,52 +49,50 @@ namespace BookingRooms.BL.Managers
 
         public void InsertBooking(BookingDto b)
         {
-
-            //check if the reservation already exists for the room
-            var existBooking = (_bookingRepository.GetAll().Where(X => b.BookedFrom >= b.BookedFrom && b.BookedTo <= b.BookedTo && b.RoomId == b.RoomId).Count()) > 0;
-
-            //insert the riservation if room is available
-            if (!existBooking)
-            {
-                Booking newB = new Booking()
-                {
-                    Id = b.Id,
-                    EmployeeId = b.EmployeeId,
-                    RoomId = b.RoomId,
-                    Description = b.Description,
-                    BookedFrom = b.BookedFrom,
-                    BookedTo = b.BookedTo,
-                    CreatedOn = DateTime.Now,
-                    UpdatedOn = DateTime.Now
-                };
-
-                _bookingRepository.Insert(newB);
-
-                LogManager.Debug($"Inserita nuova prenotazione: (RoomId:{newB.RoomId}, From:{newB.BookedFrom}, To:{newB.BookedTo})");
-            }
-            else
-            {
-                LogManager.Warning($"Impossibile inserire la prenotazione. La sala è già prenotata (RoomId:{b.RoomId}, From:{b.BookedFrom}, To:{b.BookedTo})");
-            }
-            
-        }
-
-        public BookingDto GetBookingById(int id)
-        {
-            BookingDto result = null;
-
             try
             {
-                var b = _bookingRepository.GetById(id);
-                result =  MapTo(b);
+                //check if the reservation already exists for the room
+                var existBooking = (_bookingRepository.GetAll().Where(X => b.BookedFrom >= b.BookedFrom && b.BookedTo <= b.BookedTo && b.RoomId == b.RoomId).Count()) > 0;
+
+                //insert the riservation if room is available
+                if (!existBooking)
+                {
+                    Booking newB = new Booking()
+                    {
+                        EmployeeId = b.EmployeeId,
+                        RoomId = b.RoomId,
+                        Description = b.Description,
+                        BookedFrom = b.BookedFrom,
+                        BookedTo = b.BookedTo,
+                        CreatedOn = DateTime.Now,
+                        UpdatedOn = DateTime.Now
+                    };
+
+                    _bookingRepository.Insert(newB);
+
+                    LogManager.Debug($"Inserita nuova prenotazione: (RoomId:{newB.RoomId}, From:{newB.BookedFrom}, To:{newB.BookedTo})");
+                }
+                else
+                {
+                    LogManager.Warning($"Impossibile inserire la prenotazione. La sala è già prenotata (RoomId:{b.RoomId}, From:{b.BookedFrom}, To:{b.BookedTo})");
+                }
             }
             catch(Exception ex)
             {
                 LogManager.Error(ex.Message);
                 throw ex;
             }
+            
+        }
 
-            return result;
+        public BookingDto GetBookingById(int id)
+        {
+            var b = _bookingRepository.GetById(id);
+
+            if (b != null)
+                return MapTo(b);
+
+            return null;
         }
 
         public IEnumerable<BookingDto> GetBookings()
@@ -113,9 +111,7 @@ namespace BookingRooms.BL.Managers
                 LogManager.Error($"Impossibile cancellare la prenotazione (id:{id}");
                 throw ex;
             }
-           
         }
-
 
     }
 }

@@ -57,7 +57,6 @@ namespace BookingRooms.BL.Managers
                 {
                     var newR = new Room()
                     {
-                        Id = r.Id,
                         Name = r.Name,
                         SeatsNumber = r.SeatsNumber,
                         IsAvailable = true,
@@ -85,7 +84,12 @@ namespace BookingRooms.BL.Managers
 
         public RoomDto GetRoomById(int id)
         {
-            return MapTo(_roomRepository.GetById(id));
+            var r = _roomRepository.GetById(id);
+
+            if (r != null)
+                return MapTo(r);
+
+            return null;
         }
 
         public IEnumerable<RoomDto> GetRooms()

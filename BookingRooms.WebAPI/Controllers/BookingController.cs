@@ -43,6 +43,10 @@ namespace BookingRooms.WebAPI.Controllers
         public IHttpActionResult GetBooking(int id)
         {
             var result = _bookingManager.GetBookingById(id);
+
+            if (result == null)
+                return NotFound();
+
             return Ok(result);
         }
 

@@ -124,7 +124,12 @@ namespace BookingRooms.BL.Managers
 
         public EmployeeDto GetEmployeeById(int id)
         {
-            return MapTo(_employeeRepository.GetById(id));
+            var e = _employeeRepository.GetById(id);
+
+            if (e != null)
+                return MapTo(e);
+
+            return null;
         }
 
         public IEnumerable<EmployeeDto> GetEmployees()
