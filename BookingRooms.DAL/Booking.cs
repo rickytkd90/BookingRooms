@@ -14,7 +14,6 @@ namespace BookingRooms.DAL
     
     public partial class Booking
     {
-        public int id { get; set; }
         public int EmployeeId { get; set; }
         public int RoomId { get; set; }
         public string Description { get; set; }
@@ -22,6 +21,7 @@ namespace BookingRooms.DAL
         public System.DateTime BookedTo { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<System.DateTime> UpdatedOn { get; set; }
+        public int Id { get; set; }
     
         public virtual Employee Employee { get; set; }
         public virtual Room Room { get; set; }

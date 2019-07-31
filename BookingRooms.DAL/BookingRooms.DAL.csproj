@@ -60,6 +60,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BookingRooms.Context.tt</DependentUpon>
     </Compile>
+    <Compile Include="BookingRooms.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookingRooms.tt</DependentUpon>
+    </Compile>
     <Compile Include="BookingRooms.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

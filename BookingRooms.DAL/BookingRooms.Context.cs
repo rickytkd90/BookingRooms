@@ -15,19 +15,16 @@ namespace BookingRooms.DAL
     
     public partial class BookingRoomsEntities : DbContext
     {
-
         public BookingRoomsEntities()
             : base("name=BookingRoomsEntities")
         {
-            // the terrible hack
-            var ensureDLLIsCopied = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
-
+    
         public virtual DbSet<Booking> Bookings { get; set; }
         public virtual DbSet<Building> Buildings { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }

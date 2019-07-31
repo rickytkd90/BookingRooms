@@ -50,6 +50,7 @@
     <Compile Include="Managers\EmployeeManager\IEmployeeManager.cs" />
     <Compile Include="Managers\RoomManager\IRoomManager.cs" />
     <Compile Include="Managers\RoomManager\RoomManager.cs" />
+    <Compile Include="Model\BookingDto.cs" />
     <Compile Include="Model\BuildingDto.cs" />
     <Compile Include="Model\EmployeeDto.cs" />
     <Compile Include="Model\RoomDto.cs" />
