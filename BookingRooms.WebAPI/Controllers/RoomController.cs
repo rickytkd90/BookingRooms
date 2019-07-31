@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.Description;
 
 namespace BookingRooms.WebAPI.Controllers
 {
@@ -14,6 +15,9 @@ namespace BookingRooms.WebAPI.Controllers
     [RoutePrefix("api/room")]
     public class RoomController : ApiController
     {
+
+        #region .ctor
+
         private readonly IRoomManager _roomManager;
 
         public RoomController
@@ -24,34 +28,52 @@ namespace BookingRooms.WebAPI.Controllers
             _roomManager = roomManager;
         }
 
+        #endregion
+
+        /// <summary>
+        /// Get Room by Id
+        /// </summary>
+        /// <param name="id">RoomId</param>
+        /// <returns>Room item</returns>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("get/{id:int}")]
+        [ResponseType(typeof(RoomDto))]
         [HttpGet]
-        public IHttpActionResult GetResource(int id)
+        public IHttpActionResult GetRoom(int id)
         {
             var result = _roomManager.GetRoomById(id);
-
-            if (result != null)
-                return Ok(result);
-            else
-                return NotFound();
+            return Ok(result);
         }
 
+        /// <summary>
+        /// Get Room list
+        /// </summary>
+        /// <returns>Room list</returns>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("get/all")]
+        [ResponseType(typeof(IEnumerable<RoomDto>))]
         [HttpGet]
-        public IHttpActionResult GetResources()
+        public IHttpActionResult GetRooms()
         {
             var result = _roomManager.GetRooms();
-
-            if (result != null)
-                return Ok(result);
-            else
-                return NotFound();
+            return Ok(result);
         }
 
-        //POST
-        [Route("insert")]
+        /// <summary>
+        /// Insert new Room
+        /// </summary>
+        /// <param name="room">Room item</param>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [Route("add")]
+        [ResponseType(typeof(void))]
         [HttpPost]
-        public void InsertNewResource(RoomDto room)
+        public void InsertNewRoom(RoomDto room)
         {
             _roomManager.InsertRoom(room);
         }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookingRooms.BL.Model
 {
+    /// <summary>
+    /// Contains all the Building data
+    /// </summary>
     public class BuildingDto
     {
         public int Id { get; set; }

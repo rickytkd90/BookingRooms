@@ -1,4 +1,5 @@
 ﻿using BookingRooms.BL.Model;
+using BookingRooms.Common;
 using BookingRooms.DAL;
 using BookingRooms.DAL.Repositories;
 using System;
@@ -18,54 +19,76 @@ namespace BookingRooms.BL.Managers
             _buildingRepository = new UnitOfWork().BuildingRepository;
         }
 
-        public void InsertBuilding(BuildingDto building)
+        private BuildingDto MapTo(Building b)
         {
-
-            if (building != null)
+            return new BuildingDto()
             {
-
-                Building newBuilding = new Building()
-                {
-                    Name = building.Name,
-                    Address = building.Address,
-                    City = building.City,
-                    CreatedOn = DateTime.Now,
-                    UpdatedOn = DateTime.Now
-                };
-
-                _buildingRepository.Insert(newBuilding);
-
+                Name = b.Name,
+                Address = b.Address,
+                City = b.City,
+                IsAvailable = b.IsAvailable,
+                CreatedOn = b.CreatedOn.Value,
+                UpdatedOn = b.UpdatedOn.Value
             };
+        }
+
+        private Building MapFrom(BuildingDto b)
+        {
+            return new Building()
+            {
+                Name = b.Name,
+                Address = b.Address,
+                City = b.City,
+                IsAvailable = b.IsAvailable,
+                CreatedOn = b.CreatedOn,
+                UpdatedOn = b.UpdatedOn
+            };
+        }
+
+        public void InsertBuilding(BuildingDto b)
+        {
+            try
+            {
+                //check if exist building with the same name
+                var exist = _buildingRepository.GetAll().Any(x => x.Name == b.Name);
+
+                if (!exist)
+                {
+                    var newB = new Building()
+                    {
+                        Name = b.Name,
+                        Address = b.Address,
+                        City = b.City,
+                        IsAvailable = b.IsAvailable,
+                        CreatedOn = DateTime.Now,
+                        UpdatedOn = DateTime.Now
+                    };
+
+                    _buildingRepository.Insert(newB);
+
+                    LogManager.Debug($"Inserito nuovo edificio (Name:{newB.Name}, Address:{newB.Address}, City:{newB.City})");
+                }
+                else
+                {
+                    LogManager.Warning($"E' già presente un edificio con nome {b.Name})");
+                }
+            }
+            catch(Exception ex)
+            {
+                LogManager.Error(ex.Message);
+                throw ex;
+            }
         }
 
         public BuildingDto GetBuildingById(int id)
         {
-            Building b = _buildingRepository.GetById(id);
-
-            return new BuildingDto()
-            {
-                Id = b.Id,
-                Name = b.Name,
-                Address = b.Address,
-                City = b.City,
-                IsAvailable = b.IsAvailable,
-                CreatedOn = b.CreatedOn.Value,
-                UpdatedOn = b.UpdatedOn.Value
-            };
+            return MapTo(_buildingRepository.GetById(id));
         }
 
         public IEnumerable<BuildingDto> GetBuildings()
         {
-            return _buildingRepository.GetAll().Select(b => new BuildingDto()
-            {
-                Id = b.Id,
-                Name = b.Name,
-                Address = b.Address,
-                City = b.City,
-                IsAvailable = b.IsAvailable,
-                CreatedOn = b.CreatedOn.Value,
-                UpdatedOn = b.UpdatedOn.Value
-            });
+            return _buildingRepository.GetAll().Select(b => MapTo(b));
         }
+
     }
 }

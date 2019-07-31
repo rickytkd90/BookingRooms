@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.Description;
 
 namespace BookingRooms.WebAPI.Controllers
 {
@@ -15,6 +16,9 @@ namespace BookingRooms.WebAPI.Controllers
     [RoutePrefix("api/employee")]
     public class EmployeeController : ApiController
     {
+
+        #region .ctor
+
         private readonly IEmployeeManager _employeeManager;
 
         public EmployeeController
@@ -25,32 +29,49 @@ namespace BookingRooms.WebAPI.Controllers
             _employeeManager = employeeManager;
         }
 
+        #endregion
+
+        /// <summary>
+        /// Get Employee by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Employee item</returns>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("get/{id:int}")]
+        [ResponseType(typeof(EmployeeDto))]
         [HttpGet]
-        public IHttpActionResult GetResource(int id)
+        public IHttpActionResult GetEmployee(int id)
         {
             var result = _employeeManager.GetEmployeeById(id);
-
-            if (result != null)
-                return Ok(result);
-            else
-                return NotFound();
+            return Ok(result);
         }
 
+        /// <summary>
+        /// Get Employee list
+        /// </summary>
+        /// <returns>Employee list</returns>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("get/all")]
+        [ResponseType(typeof(IEnumerable<EmployeeDto>))]
         [HttpGet]
         public IHttpActionResult GetResources()
         {
             var result = _employeeManager.GetEmployees();
-
-            if (result != null)
-                return Ok(result);
-            else
-                return NotFound();
+            return Ok(result);
         }
 
-        //POST
-        [Route("insert")]
+        /// <summary>
+        /// Insert new Employee
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [Route("add")]
+        [ResponseType(typeof(void))]
         [HttpPost]
         public void InsertNewResource(EmployeeDto employee)
         {

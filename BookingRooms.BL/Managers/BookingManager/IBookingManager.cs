@@ -1,4 +1,5 @@
 ﻿using BookingRooms.BL.Model;
+using BookingRooms.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
