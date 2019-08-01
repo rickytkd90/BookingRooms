@@ -1,5 +1,4 @@
 ﻿using BookingRooms.BL.Model;
-using BookingRooms.Common;
 using BookingRooms.DAL;
 using BookingRooms.DAL.Repositories;
 using System;
@@ -70,16 +69,16 @@ namespace BookingRooms.BL.Managers
 
                     _bookingRepository.Insert(newB);
 
-                    LogManager.Debug($"Inserita nuova prenotazione: (RoomId:{newB.RoomId}, From:{newB.BookedFrom}, To:{newB.BookedTo})");
+                    //LogManager.Debug($"Inserita nuova prenotazione: (RoomId:{newB.RoomId}, From:{newB.BookedFrom}, To:{newB.BookedTo})");
                 }
                 else
                 {
-                    LogManager.Warning($"Impossibile inserire la prenotazione. La sala è già prenotata (RoomId:{b.RoomId}, From:{b.BookedFrom}, To:{b.BookedTo})");
+                    //LogManager.Warning($"Impossibile inserire la prenotazione. La sala è già prenotata (RoomId:{b.RoomId}, From:{b.BookedFrom}, To:{b.BookedTo})");
                 }
             }
             catch(Exception ex)
             {
-                LogManager.Error(ex.Message);
+                //LogManager.Error(ex);
                 throw ex;
             }
             
@@ -108,7 +107,7 @@ namespace BookingRooms.BL.Managers
             }
             catch(Exception ex)
             {
-                LogManager.Error($"Impossibile cancellare la prenotazione (id:{id}");
+                //LogManager.Error($"Impossibile cancellare la prenotazione (id:{id}");
                 throw ex;
             }
         }

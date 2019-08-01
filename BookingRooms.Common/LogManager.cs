@@ -1,7 +1,8 @@
-﻿using log4net;
+﻿using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,11 +10,11 @@ namespace BookingRooms.Common
 {
     public class LogManager
     {
-        private static readonly ILog log = log4net.LogManager.GetLogger("BookingRooms");
+        private static Logger log = NLog.LogManager.GetCurrentClassLogger();
 
         public static void Error(Exception ex)
         {
-            log.Error(ex.Message, ex);
+            log.Error(ex, ex.Message);
         }
 
         public static void Error(string message)

@@ -1,5 +1,4 @@
 ﻿using BookingRooms.BL.Model;
-using BookingRooms.Common;
 using BookingRooms.DAL;
 using BookingRooms.DAL.Repositories;
 using System;
@@ -66,16 +65,16 @@ namespace BookingRooms.BL.Managers
 
                     _buildingRepository.Insert(newB);
 
-                    LogManager.Debug($"Inserito nuovo edificio (Name:{newB.Name}, Address:{newB.Address}, City:{newB.City})");
+                    //LogManager.Debug($"Inserito nuovo edificio (Name:{newB.Name}, Address:{newB.Address}, City:{newB.City})");
                 }
                 else
                 {
-                    LogManager.Warning($"E' già presente un edificio con nome {b.Name})");
+                    //LogManager.Warning($"E' già presente un edificio con nome {b.Name})");
                 }
             }
             catch(Exception ex)
             {
-                LogManager.Error(ex.Message);
+                //LogManager.Error(ex);
                 throw ex;
             }
         }

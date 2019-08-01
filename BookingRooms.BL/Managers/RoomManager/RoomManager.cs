@@ -1,5 +1,4 @@
 ﻿using BookingRooms.BL.Model;
-using BookingRooms.Common;
 using BookingRooms.DAL;
 using BookingRooms.DAL.Repositories;
 using System;
@@ -66,18 +65,19 @@ namespace BookingRooms.BL.Managers
 
                     _roomRepository.Insert(newR);
 
-                    LogManager.Debug($"Inserita nuova stanza (Name:{newR.Name})");
+                    //LogManager.Debug($"Inserita nuova stanza (Name:{newR.Name})");
 
                 }
                 else
                 {
-                    LogManager.Warning($"E' già presente una stanza con nome {r.Name})");
+                    //LogManager.Warning($"E' già presente una stanza con nome {r.Name})");
                 }
 
             }
             catch(Exception ex)
             {
-                LogManager.Error(ex.Message);
+                //LogManager.Error(ex);
+                throw ex;
             }
 
         }

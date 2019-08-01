@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BookingRooms.BL.Model;
-using BookingRooms.Common;
 using BookingRooms.DAL;
 using BookingRooms.DAL.Repositories;
 
@@ -73,17 +72,17 @@ namespace BookingRooms.BL.Managers
 
                     _employeeRepository.Insert(newEmployee);
 
-                    LogManager.Debug($"Inserita nuova risorsa (Id:{newEmployee.Id}, Username:{newEmployee.Username}, Email:{newEmployee.EmailAddress})");
+                    //LogManager.Debug($"Inserita nuova risorsa (Id:{newEmployee.Id}, Username:{newEmployee.Username}, Email:{newEmployee.EmailAddress})");
 
                 }
                 else
                 {
-                    LogManager.Warning($"Esiste già una risors con id:{employee.Id}");
+                    //LogManager.Warning($"Esiste già una risors con id:{employee.Id}");
                 }
             }
             catch(Exception ex)
             {
-                LogManager.Error(ex.Message);
+                //LogManager.Error(ex.Message);
                 throw ex;
             }
             
