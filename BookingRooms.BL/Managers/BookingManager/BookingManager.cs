@@ -1,4 +1,5 @@
 ﻿using BookingRooms.BL.Model;
+using BookingRooms.Common;
 using BookingRooms.DAL;
 using BookingRooms.DAL.Repositories;
 using System;
@@ -67,21 +68,21 @@ namespace BookingRooms.BL.Managers
                         UpdatedOn = DateTime.Now
                     };
 
-                    _bookingRepository.Insert(newB);
+                    _bookingRepository.Add(newB);
 
-                    //LogManager.Debug($"Inserita nuova prenotazione: (RoomId:{newB.RoomId}, From:{newB.BookedFrom}, To:{newB.BookedTo})");
+                    LogManager.Debug($"Inserita nuova prenotazione: (RoomId:{newB.RoomId}, From:{newB.BookedFrom}, To:{newB.BookedTo})");
                 }
                 else
                 {
-                    //LogManager.Warning($"Impossibile inserire la prenotazione. La sala è già prenotata (RoomId:{b.RoomId}, From:{b.BookedFrom}, To:{b.BookedTo})");
+                    LogManager.Warning($"Impossibile inserire la prenotazione. La sala è già prenotata (RoomId:{b.RoomId}, From:{b.BookedFrom}, To:{b.BookedTo})");
                 }
             }
             catch(Exception ex)
             {
-                //LogManager.Error(ex);
+                LogManager.Error($"Errore nell'insermineto della prenotazione (RoomId:{b.RoomId}, From:{b.BookedFrom}, To:{b.BookedTo})");
+                LogManager.Error(ex);
                 throw ex;
             }
-            
         }
 
         public BookingDto GetBookingById(int id)
@@ -91,6 +92,7 @@ namespace BookingRooms.BL.Managers
             if (b != null)
                 return MapTo(b);
 
+            LogManager.Warning($"Nessuna prenotazione trovata (id:{id})");
             return null;
         }
 
@@ -104,13 +106,14 @@ namespace BookingRooms.BL.Managers
             try
             {
                 _bookingRepository.DeleteById(id);
+                LogManager.Debug($"Prenotazione Cancellata (id:{id})");
             }
             catch(Exception ex)
             {
-                //LogManager.Error($"Impossibile cancellare la prenotazione (id:{id}");
+                LogManager.Error($"Impossibile cancellare la prenotazione (id:{id}");
+                LogManager.Error(ex);
                 throw ex;
             }
         }
-
     }
 }

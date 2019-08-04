@@ -58,6 +58,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BookingRooms.Common\BookingRooms.Common.csproj">
+      <Project>{EE002AB5-91FB-4D9F-B903-2A8209FC8878}</Project>
+      <Name>BookingRooms.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BookingRooms.DAL\BookingRooms.DAL.csproj">
       <Project>{A41F982E-430A-4AA0-AADA-8DE42E765F18}</Project>
       <Name>BookingRooms.DAL</Name>

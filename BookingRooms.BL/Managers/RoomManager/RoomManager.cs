@@ -1,4 +1,5 @@
 ﻿using BookingRooms.BL.Model;
+using BookingRooms.Common;
 using BookingRooms.DAL;
 using BookingRooms.DAL.Repositories;
 using System;
@@ -44,7 +45,6 @@ namespace BookingRooms.BL.Managers
             };
         }
 
-
         public void InsertRoom(RoomDto r)
         {
             try
@@ -63,23 +63,23 @@ namespace BookingRooms.BL.Managers
                         UpdatedOn = DateTime.Now
                     };
 
-                    _roomRepository.Insert(newR);
+                    _roomRepository.Add(newR);
 
-                    //LogManager.Debug($"Inserita nuova stanza (Name:{newR.Name})");
+                    LogManager.Debug($"Inserita nuova stanza (Name:{newR.Name})");
 
                 }
                 else
                 {
-                    //LogManager.Warning($"E' già presente una stanza con nome {r.Name})");
+                    LogManager.Warning($"E' già presente una stanza con nome {r.Name})");
                 }
 
             }
             catch(Exception ex)
             {
-                //LogManager.Error(ex);
+                LogManager.Error($"Errore nell'inserimento della stanza (id:{r.Id})");
+                LogManager.Error(ex);
                 throw ex;
             }
-
         }
 
         public RoomDto GetRoomById(int id)
@@ -89,6 +89,7 @@ namespace BookingRooms.BL.Managers
             if (r != null)
                 return MapTo(r);
 
+            LogManager.Warning($"Nessuna stanza trovata (id:{id})");
             return null;
         }
 

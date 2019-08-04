@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: log4net.Config.XmlConfigurator]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
@@ -20,7 +21,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("afb6f415-cc8e-4bb0-b9dd-ac65953d3a5e")]
+[assembly: Guid("ee002ab5-91fb-4d9f-b903-2a8209fc8878")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -1,4 +1,5 @@
 ﻿using BookingRooms.BL.Model;
+using BookingRooms.Common;
 using BookingRooms.DAL;
 using BookingRooms.DAL.Repositories;
 using System;
@@ -63,18 +64,19 @@ namespace BookingRooms.BL.Managers
                         UpdatedOn = DateTime.Now
                     };
 
-                    _buildingRepository.Insert(newB);
+                    _buildingRepository.Add(newB);
 
-                    //LogManager.Debug($"Inserito nuovo edificio (Name:{newB.Name}, Address:{newB.Address}, City:{newB.City})");
+                    LogManager.Debug($"Inserito nuovo edificio (Name:{newB.Name}, Address:{newB.Address}, City:{newB.City})");
                 }
                 else
                 {
-                    //LogManager.Warning($"E' già presente un edificio con nome {b.Name})");
+                    LogManager.Warning($"E' già presente un edificio con nome {b.Name})");
                 }
             }
             catch(Exception ex)
             {
-                //LogManager.Error(ex);
+                LogManager.Error($"Errore nell'inserimento dell'edificio (Name:{b.Name}, Address:{b.Address}, City:{b.City})");
+                LogManager.Error(ex);
                 throw ex;
             }
         }
@@ -86,6 +88,7 @@ namespace BookingRooms.BL.Managers
             if (b != null)
                 return MapTo(b);
 
+            LogManager.Warning($"Nessun edificio trovato (id:{id})");
             return null;
         }
 
@@ -93,6 +96,5 @@ namespace BookingRooms.BL.Managers
         {
             return _buildingRepository.GetAll().Select(b => MapTo(b));
         }
-
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,6 +40,10 @@ namespace BookingRooms.DAL
             dbContext.SaveChanges();
         }
 
+        /// <summary>
+        /// Retrive all records
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<TEntity> GetAll()
         {
             return dbSet.AsEnumerable();
@@ -58,23 +63,10 @@ namespace BookingRooms.DAL
         /// Insert a record in the database
         /// </summary>
         /// <param name="entity">Record to insert in the database</param>
-        public void Insert(TEntity entity)
+        public void Add(TEntity entity)
         {
             dbSet.Add(entity);
             dbContext.SaveChanges();
-        }
-
-        /// <summary>
-        /// Insert a record in the database and retrieve the record inserted
-        /// </summary>
-        /// <param name="entity">Record to insert in the database</param>
-        /// <returns></returns>
-        [Obsolete]
-        public TEntity InsertAndGet(TEntity entity)
-        {
-            dbSet.Add(entity);
-            dbContext.SaveChanges();
-            return entity;
         }
 
         /// <summary>
@@ -86,6 +78,16 @@ namespace BookingRooms.DAL
             dbSet.Attach(entity);
             dbContext.Entry(entity).State = EntityState.Modified;
             dbContext.SaveChanges();
+        }
+
+        /// <summary>
+        /// Find all records that match condition
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> where)
+        {
+            return dbSet.Where<TEntity>(where);
         }
     }
 }

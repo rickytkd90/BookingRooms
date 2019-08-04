@@ -8,8 +8,6 @@ namespace BookingRooms.DAL.Repositories
 {
     public interface IEmployeeRepository : IRepository<Employee>
     {
-        Employee GetEmployeeByUsername(string username);
-        Employee GetEmployeeByEmailAddress(string emailAddress);
         int GetNewId();
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BookingRooms.BL.Model;
+using BookingRooms.Common;
 using BookingRooms.DAL;
 using BookingRooms.DAL.Repositories;
 
@@ -70,22 +71,21 @@ namespace BookingRooms.BL.Managers
                         UpdatedOn = DateTime.Now
                     };
 
-                    _employeeRepository.Insert(newEmployee);
+                    _employeeRepository.Add(newEmployee);
 
-                    //LogManager.Debug($"Inserita nuova risorsa (Id:{newEmployee.Id}, Username:{newEmployee.Username}, Email:{newEmployee.EmailAddress})");
+                    LogManager.Debug($"Inserita nuova risorsa (Id:{newEmployee.Id}, Username:{newEmployee.Username}, Email:{newEmployee.EmailAddress})");
 
                 }
                 else
                 {
-                    //LogManager.Warning($"Esiste già una risors con id:{employee.Id}");
+                    LogManager.Warning($"Esiste già una risors con id:{employee.Id}");
                 }
             }
             catch(Exception ex)
             {
-                //LogManager.Error(ex.Message);
+                LogManager.Error(ex.Message);
                 throw ex;
             }
-            
         }
 
         public string GenerateUsername(string name, string surname)
@@ -97,7 +97,7 @@ namespace BookingRooms.BL.Managers
             while (true)
             {
                 var username = $"{us1}{us2}{us3}".ToLower();
-                if (_employeeRepository.GetEmployeeByUsername(username) == null)
+                if (_employeeRepository.Find(x => x.Username == username) == null)
                     return username;
                 us3++;
             }
@@ -115,7 +115,7 @@ namespace BookingRooms.BL.Managers
                 else
                     emailAddress = $"{name}.{surname}{k.ToString()}{domain}".ToLower();
 
-                if (_employeeRepository.GetEmployeeByEmailAddress(emailAddress) == null)
+                if (_employeeRepository.Find(x => x.EmailAddress == emailAddress) == null)
                     return emailAddress;
                 k++;
             }
