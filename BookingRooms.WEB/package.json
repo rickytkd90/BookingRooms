@@ -4,5 +4,16 @@
     "jquery": "^3.4.1",
     "jquery-ui-dist": "^1.12.1",
     "popper.js": "^1.15.0"
-  }
+  },
+  "name": "bookingrooms.web",
+  "version": "1.0.0",
+  "main": "main.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Riccardo Grassi",
+  "license": "ISC",
+  "description": "Progetto percorso Circolare"
 }
