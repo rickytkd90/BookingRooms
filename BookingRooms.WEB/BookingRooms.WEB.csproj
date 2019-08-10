@@ -70,18 +70,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\style.css" />
-    <Content Include="html\bookings.html" />
-    <Content Include="html\buildings.html" />
-    <Content Include="html\employees.html" />
-    <Content Include="html\rooms.html" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="index.html" />
     <Content Include="package.json" />
     <None Include="packages.config" />
+    <Content Include="scripts\scrolling-nav.js" />
     <Content Include="Web.config" />
+    <Content Include="tsconfig.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -91,10 +90,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="images\" />
-    <Folder Include="scripts\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="main.ts" />
     <TypeScriptCompile Include="models\models.ts" />
+    <TypeScriptCompile Include="scripts\index.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
