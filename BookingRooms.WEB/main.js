@@ -1,2 +1,2 @@
-var project = "BookingRooms.WEB";
+const project = "BookingRooms.WEB";
 //# sourceMappingURL=main.js.map

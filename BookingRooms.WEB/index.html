@@ -10,21 +10,25 @@
 
     <title>Prenotazione Sale</title>
 
-    <!-- Bootstrap core CSS -->
+    <!-- CSS -->
     <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../node_modules/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
     <link href="../node_modules/tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet">
-
+    <link href="../node_modules/mdbootstrap/css/addons/datatables.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="../css/style.css" rel="stylesheet">
 
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
 </head>
 
-<body id="page-top">
-    <!-- Navigation -->
+<body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">Prenotazione Sale</a>
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                <img src="images/PNGlogo.png" alt="" style="max-width:90px;">
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                     aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -32,52 +36,168 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#bookings">Prenotazioni</a>
+                        <a class="nav-link" href="#bookings">Prenotazioni</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#buildings">Edifici</a>
+                        <a class="nav-link" href="#buildings">Edifici</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#rooms">Sale</a>
+                        <a class="nav-link" href="#rooms">Sale</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#employees">Risorse</a>
+                        <a class="nav-link" href="#employees">Risorse</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <header class="bg-primary text-white">
+    <!-- Welcome Section -->
+    <header class="bg-light">
         <div class="container text-center">
-            <h1>Welcome to Scrolling Nav</h1>
-            <p class="lead">A landing page template freshly redesigned for Bootstrap 4</p>
+            <h2>Piattaforma di gestione e prenotazione sale</h2>
+            <p class="lead"></p>
         </div>
     </header>
 
-    <section id="bookings">
+    <!-- Booking Section -->
+    <section id="bookings" style="min-height:600px;">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h2>Inserisci Prenotazione</h2>
+            <!--Button trigger modal-->
+            <div class="col-lg-10 mx-auto">
+                <h3><i class="far fa-calendar-alt">&nbsp;</i>Prenotazioni</h3>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button type="button" class="btn btn btn-outline-danger btn-sm" onclick="showModal('ModalInsertBooking')" style="float:right">
+                            <i class="fas fa-plus"></i>&nbsp;Aggiungi prenotazione
+                        </button>
+                    </div>
+                </div>
+                <table id="bookings-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="th-sm">Id</th>
+                            <th class="th-sm">Risorsa</th>
+                            <th class="th-sm">Sala</th>
+                            <th class="th-sm">Prenotata Da:</th>
+                            <th class="th-sm">A:</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="buildings" class="bg-light" style="min-height:600px;">
+        <div class="container">
+            <div class="col-lg-10 mx-auto">
+                <h3><i class="fa fa-building">&nbsp;</i>Edifici</h3>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button type="button" class="btn btn btn-outline-danger btn-sm" onclick="showModal('ModalInsertBuilding')" style="margin-bottom:40px; float:right">
+                            <i class="fas fa-plus"></i>&nbsp;Aggiungi Edificio
+                        </button>
+                    </div>
+                </div>
+                <table id="buildings-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="th-sm">Id</th>
+                            <th class="th-sm">Nome</th>
+                            <th class="th-sm">Indirizzo</th>
+                            <th class="th-sm">Città</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="rooms" style="min-height:600px;">
+        <div class="container">
+            <div class="col-lg-10 mx-auto">
+                <h3><i class="fas fa-chalkboard-teacher"></i>&nbsp;Sale</h3>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button type="button" class="btn btn btn-outline-danger btn-sm" onclick="showModal('ModalInsertRoom')" style="margin-bottom:40px; float:right">
+                            <i class="fas fa-plus"></i>&nbsp;Sala
+                        </button>
+                    </div>
+                </div>
+                <table id="rooms-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="th-sm">Id</th>
+                            <th class="th-sm">Nome</th>
+                            <th class="th-sm">Numero Sedute</th>
+                            <th class="th-sm">Edificio</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="employees" class="bg-light" style="min-height:800px;">
+        <div class="container">
+            <div class="col-lg-10 mx-auto">
+                <h3><i class="fa fa-users">&nbsp;</i>Risorse</h3>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button type="button" class="btn btn btn-outline-danger btn-sm" onclick="showModal('ModalInsertEmployee')" style="margin-bottom:40px; float:right">
+                            <i class="fas fa-plus"></i>&nbsp; Risorsa
+                        </button>
+                    </div>
+                </div>
+                <table id="employees-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="th-sm">Id</th>
+                            <th class="th-sm">Nome</th>
+                            <th class="th-sm">Cognome</th>
+                            <th class="th-sm">Username</th>
+                            <th class="th-sm">Indirizzo Email</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <!--<footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Prenotazione Sale 2019</p>
+        </div>
+    </footer>-->
+
+    <div class="alert-container"></div>
+
+    <!-- Modal Insert Booking -->
+    <div class="modal fade" id="ModalInsertBooking" tabindex="-1" role="dialog" aria-labelledby="ModalInsertBooking" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="ModalInsertBookingTitle">Nuova prenotazione</h3>
+                </div>
+                <div class="modal-body">
+
                     <form>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputBookingEmployee">Risorsa</label>
-                                <select id="inputBookingEmployee" class="form-control">
-                                    <option selected>Choose...</option>
-                                    <option>Risorsa1</option>
-                                    <option>Risorsa2</option>
-                                    <option>Risorsa3</option>
+                                <select id="inputBookingEmployee" class="form-control" required>
+                                    <option selected>Seleziona..</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputBookingRoom">Sala</label>
-                                <select id="inputBookingRoom" class="form-control">
+                                <select id="inputBookingRoom" class="form-control" required>
                                     <option selected>Choose...</option>
-                                    <option>Sala1</option>
-                                    <option>Sala2</option>
-                                    <option>Sala3</option>
                                 </select>
                             </div>
                         </div>
@@ -90,125 +210,68 @@
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="inputBookingBookedFrom">Prenota Da:</label>
-                                <!--<div class="input-group date" id="datetimepicker7" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker7" />
-                                    <div class="input-group-append" data-target="#datetimepicker7" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
-                                </div>-->
-                                <input type="text" class="form-control datetimepicker-input" id="inputBookingBookedFrom" data-toggle="datetimepicker" data-target="#inputBookingBookedFrom" />
+                                <input type="text" class="form-control datetimepicker-input" id="inputBookingBookedFrom" data-toggle="datetimepicker" data-target="#inputBookingBookedFrom" required />
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="inputBookingBookedTo">A:</label>
-                                <!--<div class="input-group date" id="datetimepicker8" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker8" />
-                                    <div class="input-group-append" data-target="#datetimepicker8" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
-                                </div>-->
-                                <input type="text" class="form-control datetimepicker-input" id="inputBookingBookedTo" data-toggle="datetimepicker" data-target="#inputBookingBookedTo" />
+                                <input type="text" class="form-control datetimepicker-input" id="inputBookingBookedTo" data-toggle="datetimepicker" data-target="#inputBookingBookedTo" required />
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Inserisci</button>
-                    </form>
-                </div>
-            </div>
-            <br><br>
-            <div class="row" id="bookingsListRow">
-                <div class="col-lg-8 mx-auto">
-                    <h2>Prenotazioni</h2>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Risorsa</th>
-                                <th scope="col">Sala</th>
-                                <th scope="col">Da</th>
-                                <th scope="col">A</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Riccardo Grassi</td>
-                                <td>Sala1</td>
-                                <td>16/8/19 6:45</td>
-                                <td>16/8/19 6:45</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Riccardo Grassi</td>
-                                <td>Sala1</td>
-                                <td>16/8/19 6:45</td>
-                                <td>16/8/19 6:45</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Riccardo Grassi</td>
-                                <td>Sala1</td>
-                                <td>16/8/19 6:45</td>
-                                <td>16/8/19 6:45</td>
-                            </tr>
-                        </tbody>
-                    </table>
 
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                    <button type="submit" class="btn btn-primary" onclick="addBooking()">Inserisci</button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section id="buildings" class="bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h2>Inserisci Edificio</h2>
-                    <div class="alert alert-success" role="alert">
-                        Edificio inserito con successo!
-                    </div>
-                    <div class="alert alert-danger" role="alert">
-                        Errore nell'inserimento dell'edificio
-                    </div>
+    <!-- Modal Insert Building -->
+    <div class="modal fade" id="ModalInsertBuilding" tabindex="-1" role="dialog" aria-labelledby="ModalInsertBuilding" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="ModalInsertBuildingTitle">Nuovo Edificio</h3>
+                </div>
+                <div class="modal-body">
                     <form>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="inputBuildingName">Nome</label>
-                                <input type="text" class="form-control" id="inputBuildingName" placeholder="Nome">
+                                <input type="text" class="form-control required" id="inputBuildingName" placeholder="Nome" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputBuildingAddress">Indirizzo</label>
-                                <input type="text" class="form-control" id="inputBuildingAddress" placeholder="Indirizzo">
+                                <input type="text" class="form-control required" id="inputBuildingAddress" placeholder="Indirizzo">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="inputBuildingCity">Città</label>
-                                <input type="text" class="form-control" id="inputBuildingCity" placeholder="Città">
+                                <input type="text" class="form-control required" id="inputBuildingCity" placeholder="Città">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Sign in</button>
                     </form>
                 </div>
-            </div>
-            <br><br>
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h2>Edifici</h2>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                    <button type="submit" class="btn btn-primary" onclick="addBuilding()">inserisci</button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section id="rooms">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h2>Inserisci Sala</h2>
-                    <div class="alert alert-success" role="alert">
-                        Sala inserita con successo!
-                    </div>
-                    <div class="alert alert-danger" role="alert">
-                        Errore nell'inserimento della Sala
-                    </div>
+    <!-- Modal Insert Room -->
+    <div class="modal fade" id="ModalInsertRoom" tabindex="-1" role="dialog" aria-labelledby="ModalInsertRoom" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="ModalInsertRoomTitle">Nuovo Edificio</h3>
+                </div>
+                <div class="modal-body">
                     <form>
                         <div class="form-row">
                             <div class="form-group col-md-4">
@@ -222,41 +285,28 @@
                             <div class="form-group col-md-4">
                                 <label for="inputRoomBuildings">Edificio</label>
                                 <select id="inputRoomBuildings" class="form-control">
-                                    <option selected>Choose...</option>
-                                    <option>Edificio1</option>
-                                    <option>Edificio2</option>
-                                    <option>Edificio3</option>
+                                    <option selected>Seleziona...</option>
                                 </select>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Sign in</button>
                     </form>
                 </div>
-            </div>
-            <br><br>
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h2>Sale</h2>
-
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                    <button type="submit" class="btn btn-primary" onclick="addRoom()">Inserisci</button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section id="employees">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h2>Inserisci Risorsa</h2>
-                    <div class="alert alert-success" role="alert">
-                        Risorsa inserita con successo!
-                    </div>
-                    <div class="alert alert-warning" role="alert">
-                        Attenzione! Esiste già una risorsa con lo stesso id
-                    </div>
-                    <div class="alert alert-danger" role="alert">
-                        Errore nell'inserimento della risorsa
-                    </div>
+    <!-- Modal Insert Employee -->
+    <div class="modal fade" id="ModalInsertEmployee" tabindex="-1" role="dialog" aria-labelledby="ModalInsertEmployee" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="ModalInsertEmployeeTitle">Nuova Risorsa</h3>
+                </div>
+                <div class="modal-body">
                     <form>
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -278,37 +328,27 @@
                                 <input type="text" class="form-control" id="inputEmployeeUsername" readonly>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Sign in</button>
-
                     </form>
                 </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h2>Risorse</h2>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                    <button type="submit" class="btn btn-primary" onclick="addEmployee()">Inserisci</button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-        <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
-        </div>
-        <!-- /.container -->
-    </footer>
-
-    <!-- Bootstrap core JavaScript -->
+    <!-- scripts -->
     <script src="../node_modules/jquery/dist/jquery.js"></script>
     <script src="../node_modules/moment/min/moment-with-locales.min.js"></script>
     <script src="../node_modules/tether/dist/js/tether.min.js"></script>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../node_modules/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min.js"></script>
     <script src="../node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../node_modules/mdbootstrap/js/addons/datatables.min.js"></script>
     <script src="../scripts/scrolling-nav.js"></script>
     <script src="scripts/index.js"></script>
+    <script src="scripts/logic.js"></script>
 
 </body>
 

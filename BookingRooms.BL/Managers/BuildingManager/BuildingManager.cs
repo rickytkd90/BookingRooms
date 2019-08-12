@@ -23,6 +23,7 @@ namespace BookingRooms.BL.Managers
         {
             return new BuildingDto()
             {
+                Id = b.Id,
                 Name = b.Name,
                 Address = b.Address,
                 City = b.City,
@@ -36,6 +37,7 @@ namespace BookingRooms.BL.Managers
         {
             return new Building()
             {
+                Id = b.Id,
                 Name = b.Name,
                 Address = b.Address,
                 City = b.City,
@@ -70,12 +72,11 @@ namespace BookingRooms.BL.Managers
                 }
                 else
                 {
-                    LogManager.Warning($"E' già presente un edificio con nome {b.Name})");
+                    throw new Exception($"E' già presente un edificio con nome {b.Name}");
                 }
             }
             catch(Exception ex)
             {
-                LogManager.Error($"Errore nell'inserimento dell'edificio (Name:{b.Name}, Address:{b.Address}, City:{b.City})");
                 LogManager.Error(ex);
                 throw ex;
             }

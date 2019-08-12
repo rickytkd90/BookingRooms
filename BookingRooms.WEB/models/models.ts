@@ -2,6 +2,7 @@
     Id: number;
     Name: string;
     SeatsNumber: number;
+    BuildingId: number;
     IsAvailable: boolean;
     CreatedOn: Date;
     UpdatedOn: Date;

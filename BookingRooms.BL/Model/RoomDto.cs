@@ -15,6 +15,7 @@ namespace BookingRooms.BL.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public int SeatsNumber { get; set; }
+        public int BuildingId { get; set; }
         public bool IsAvailable { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }

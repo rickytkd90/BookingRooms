@@ -1,7 +1,37 @@
-﻿header {
-  padding: 156px 0 100px;
+﻿body {
+    font-family: 'Roboto', sans-serif;
+    padding-top: 60px;
+}
+
+header {
+    padding: 100px 0 150px;
 }
 
 section {
-  padding: 50px 0;
+    padding: 90px 0;
+}
+
+header h1{
+    color: #ff0000
+}
+
+a.nav-link {
+    color: dimgrey !important;
+}
+
+    a.nav-link.active {
+        color: #ff0000 !important;
+    }
+
+.alert-container {
+    position: fixed;
+    top: 0;
+    width: calc(100% - 60px );
+    margin: 0px 30px;
+    z-index: 99999;
+    opacity: 0.9;
+}
+
+.modal-open .container-fluid, .modal-open  .container {
+    -webkit-filter: blur(5px) grayscale(90%);
 }

@@ -26,6 +26,7 @@ namespace BookingRooms.BL.Managers
                 Id = r.Id,
                 Name = r.Name,
                 SeatsNumber = r.SeatsNumber,
+                BuildingId = r.BuildingId,
                 IsAvailable = r.IsAvailable,
                 CreatedOn = r.CreatedOn.Value,
                 UpdatedOn = r.UpdatedOn.Value
@@ -39,6 +40,7 @@ namespace BookingRooms.BL.Managers
                 Id = r.Id,
                 Name = r.Name,
                 SeatsNumber = r.SeatsNumber,
+                BuildingId = r.BuildingId,
                 IsAvailable = r.IsAvailable,
                 CreatedOn = r.CreatedOn,
                 UpdatedOn = r.UpdatedOn
@@ -59,6 +61,7 @@ namespace BookingRooms.BL.Managers
                         Name = r.Name,
                         SeatsNumber = r.SeatsNumber,
                         IsAvailable = true,
+                        BuildingId = r.BuildingId,
                         CreatedOn = DateTime.Now,
                         UpdatedOn = DateTime.Now
                     };
