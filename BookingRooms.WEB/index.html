@@ -81,6 +81,7 @@
                             <th class="th-sm">Sala</th>
                             <th class="th-sm">Prenotata Da:</th>
                             <th class="th-sm">A:</th>
+                            <th class="th-sm">Info</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -107,6 +108,7 @@
                             <th class="th-sm">Nome</th>
                             <th class="th-sm">Indirizzo</th>
                             <th class="th-sm">Città</th>
+                            <th class="th-sm">Info</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -132,7 +134,7 @@
                             <th class="th-sm">Id</th>
                             <th class="th-sm">Nome</th>
                             <th class="th-sm">Numero Sedute</th>
-                            <th class="th-sm">Edificio</th>
+                            <th class="th-sm">Info</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -230,61 +232,61 @@
     </div>
 
     <!-- Modal Insert Building -->
-    <div class="modal fade" id="ModalInsertBuilding" tabindex="-1" role="dialog" aria-labelledby="ModalInsertBuilding" aria-hidden="true">
+    <div class="modal fade" id="ModalInsertBuilding" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="ModalInsertBuilding" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="ModalInsertBuildingTitle">Nuovo Edificio</h3>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="ModalInsertBuildingForm">
                         <div class="form-row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-12">
                                 <label for="inputBuildingName">Nome</label>
-                                <input type="text" class="form-control required" id="inputBuildingName" placeholder="Nome" required>
+                                <input type="text" class="form-control form-control-sm" id="inputBuildingName" placeholder="Nome" maxlength="50" required>
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-7">
                                 <label for="inputBuildingAddress">Indirizzo</label>
-                                <input type="text" class="form-control required" id="inputBuildingAddress" placeholder="Indirizzo">
+                                <input type="text" class="form-control form-control-sm" id="inputBuildingAddress" placeholder="Indirizzo" maxlength="100" required>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-5">
                                 <label for="inputBuildingCity">Città</label>
-                                <input type="text" class="form-control required" id="inputBuildingCity" placeholder="Città">
+                                <input type="text" class="form-control form-control-sm" id="inputBuildingCity" placeholder="Città" maxlength="100" required>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                    <button type="submit" class="btn btn-primary" onclick="addBuilding()">inserisci</button>
+                    <button type="reset" class="btn btn-danger btn-sm" data-dismiss="modal">Annulla</button>
+                    <button type="button" class="btn btn-success btn-sm" onclick="addBuilding()">Inserisci</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Modal Insert Room -->
-    <div class="modal fade" id="ModalInsertRoom" tabindex="-1" role="dialog" aria-labelledby="ModalInsertRoom" aria-hidden="true">
+    <div class="modal fade" id="ModalInsertRoom" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="ModalInsertRoom" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="ModalInsertRoomTitle">Nuovo Edificio</h3>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="ModalInsertRoomForm">
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="inputRoomName">Nome</label>
-                                <input type="text" class="form-control" id="inputRoomName" placeholder="Nome">
+                                <input type="text" class="form-control form-control-sm" id="inputRoomName" placeholder="Nome" maxlength="50" required>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="inputRoomSeatsNumber">Posti Disponibili</label>
-                                <input type="number" class="form-control" id="inputRoomSeatsNumber">
+                                <input type="number" class="form-control form-control-sm" id="inputRoomSeatsNumber" min="1" required>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="inputRoomBuildings">Edificio</label>
-                                <select id="inputRoomBuildings" class="form-control">
+                                <select id="inputRoomBuildings" class="form-control form-control-sm" required>
                                     <option selected>Seleziona...</option>
                                 </select>
                             </div>
@@ -292,8 +294,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                    <button type="submit" class="btn btn-primary" onclick="addRoom()">Inserisci</button>
+                    <button type="reset" class="btn btn-danger btn-sm" data-dismiss="modal">Annulla</button>
+                    <button type="button" class="btn btn-success btn-sm" onclick="addRoom()">Inserisci</button>
                 </div>
             </div>
         </div>
@@ -333,6 +335,21 @@
                 <div class="modal-footer">
                     <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
                     <button type="submit" class="btn btn-primary" onclick="addEmployee()">Inserisci</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detail-->
+    <div class="modal fade" id="ModalDetail" tabindex="-1" role="dialog" aria-labelledby="ModalInsertEmployee" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="ModalDetail">Dettagli</h3>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
                 </div>
             </div>
         </div>

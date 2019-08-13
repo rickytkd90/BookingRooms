@@ -1,8 +1,11 @@
-﻿export class RoomDto {
+﻿
+
+export class RoomDto {
     Id: number;
     Name: string;
     SeatsNumber: number;
     BuildingId: number;
+    BuildingName: string;
     IsAvailable: boolean;
     CreatedOn: Date;
     UpdatedOn: Date;

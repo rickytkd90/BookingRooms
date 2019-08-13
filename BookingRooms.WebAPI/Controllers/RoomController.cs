@@ -75,7 +75,12 @@ namespace BookingRooms.WebAPI.Controllers
         [HttpPost]
         public void InsertNewRoom(RoomDto room)
         {
-            _roomManager.InsertRoom(room);
+            
+            if (room != null && ModelState.IsValid)
+                _roomManager.InsertRoom(room);
+            else
+                throw new Exception("I valori indicati per la nuova sala non sono validi");
+
         }
     }
 }

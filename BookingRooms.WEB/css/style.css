@@ -35,3 +35,25 @@ a.nav-link {
 .modal-open .container-fluid, .modal-open  .container {
     -webkit-filter: blur(5px) grayscale(90%);
 }
+
+.modal-title {
+    color: #ff0000;
+}
+
+th {
+    text-align: center;
+}
+
+thead {
+    background-color: #932E54 /*#A9502E*/;
+    color: white;
+}
+
+/*tr td:nth-child(1) {
+    text-align: center;
+}*/
+
+tr td:first-child,
+tr td:last-child {
+    text-align: center;
+}

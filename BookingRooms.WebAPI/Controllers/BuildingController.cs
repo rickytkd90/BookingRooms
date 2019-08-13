@@ -78,7 +78,10 @@ namespace BookingRooms.WebAPI.Controllers
         [HttpPost]
         public void InsertNewBuilding(BuildingDto building)
         {
-            _buildingManager.InsertBuilding(building);
+            if (building != null && ModelState.IsValid)
+                _buildingManager.InsertBuilding(building);
+            else
+                throw new Exception("I valori indicati per il nuovo edificio non sono validi");
         }
 
     }

@@ -2,6 +2,7 @@
 
 const apiUri: string = 'https://localhost:44305/api';
 let _self = this;
+let optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit' }
 let buildingsTable = null;
 let roomsTable = null;
 let employeesTable = null;
@@ -35,16 +36,131 @@ $(document).ready(() => {
     _self.getEmployees();
     //_self.getBookings();
 
+    $('input').change(function () {
+        $(this).removeClass('is-valid');
+        $(this).removeClass('is-invalid');
+    });
+
 });
 
+//**********************************************************************
+//      BUILDING
+//**********************************************************************
 
-function getRooms() {
+function getBuildings(): void {
+
+    $.getJSON(apiUri + '/building/get/all')
+        .done((buildings: BuildingDto[]) => {
+
+            buildingsTable.clear();
+            $("#inputRoomBuildings").empty();
+            $('#inputRoomBuildings').append('<option value=0 selected="selected">Seleziona..</option>');
+
+            $.each(buildings, (key, item: BuildingDto) => {
+
+                buildingsTable.row.add(
+                    [
+                        item.Id,
+                        item.Name,
+                        item.Address,
+                        item.City,
+                        '<button type="button" class="btn btn btn-link btn-sm" onclick="getBuildingById(' + item.Id + ')"><i class="fas fa-info-circle"></i> detail</button>'
+                    ]
+                );
+
+                $('#inputRoomBuildings').append('<option value=' + item.Id + '>' + item.Name + '</option>');
+            });
+
+            buildingsTable.draw();
+
+        })
+        .fail(function (jqXHR, textStatus, err) {
+            alertMsg("DANGER", "Si è verificato un errore nel caricamento degli edifici", 0);
+        });
+}
+
+function getBuildingById(id: number): void {
+    
+    $.getJSON(apiUri + '/building/get/' + id)
+        .done((item: BuildingDto) => {
+
+            $("#ModalDetail .modal-body").html(
+                '<ul>'
+                + '<li><strong>Id:</strong> ' + item.Id + '</li>'
+                + '<li><strong>Nome:</strong> ' + item.Name + '</li>'
+                + '<li><strong>Indirizzo:</strong> ' + item.Address + '</li>'
+                + '<li><strong>Città:</strong> ' + item.City + '</li>'
+                + '<li><strong>Disponibile:</strong> ' + item.IsAvailable + '</li>'
+                + '<li><strong>Data Inserimento:</strong> ' + new Date(item.CreatedOn).toLocaleDateString('it-IT', optionsDate) + '</li>'
+                + '<li><strong>Data Aggiornamento:</strong> ' + new Date(item.UpdatedOn).toLocaleDateString('it-IT', optionsDate) + '</li>'
+                + '</ul>'
+            );
+
+            $('#ModalDetail').modal({ show: true });
+        })
+        .fail(function (jqXHR, textStatus, err) {
+            alertMsg("DANGER", "Si è verificato un errore nel caricamento dei dettagli dell'edificio", 0);
+        });
+}
+
+function addBuilding(): void {
+
+    //check values
+    let isInvalid: boolean;
+    $("#ModalInsertBuildingForm input").each(function () {
+        if (!$(this).val()) {
+            $(this).removeClass('is-valid')
+            $(this).addClass('is-invalid')
+            isInvalid = true;
+        }
+        else {
+            $(this).removeClass('is-invalid')
+            $(this).addClass('is-valid')
+        }
+    });
+
+    if (isInvalid) {
+        alertMsg("DANGER", "Tutti i campi sono obbligatori", 0);
+        return;
+    }
+
+    //call api
+    $.ajax({
+        type: "POST",
+        url: apiUri + '/building/add',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            Name: $('#inputBuildingName').val(),
+            Address: $('#inputBuildingAddress').val(),
+            City: $('#inputBuildingCity').val(),
+            IsAvailable: true
+        })
+    }).done(function (data) {
+
+        //update buildings table
+        getBuildings();
+
+        //close modal
+        $('#ModalInsertBuilding').modal('toggle');
+        (<any>$('#ModalInsertBuilding').find('form')[0]).reset();
+        alertMsg("SUCCESS", "Edificio inserito con successo", 0);
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
+    });
+}
+
+//**********************************************************************
+//      ROOM
+//**********************************************************************
+
+function getRooms(): void {
 
     $.getJSON(apiUri + '/room/get/all')
         .done((rooms: RoomDto[]) => {
 
-            $('#inputBookingRoom').empty();
             roomsTable.clear();
+            $('#inputBookingRoom').empty();
             $('#inputBookingRoom').append('<option value=0 selected="selected">Seleziona..</option>');
 
             $.each(rooms, (key, item: RoomDto) => {
@@ -54,7 +170,7 @@ function getRooms() {
                         item.Id,
                         item.Name,
                         item.SeatsNumber,
-                        item.BuildingId
+                        '<button type="button" class="btn btn btn-link btn-sm" onclick="getRoomById(' + item.Id + ')"><i class="fas fa-info-circle"></i> detail</button>'
                     ]
                 );
 
@@ -70,7 +186,63 @@ function getRooms() {
         });
 }
 
+function getRoomById(id: number): void {
+
+    $.getJSON(apiUri + '/room/get/' + id)
+        .done((item: RoomDto) => {
+
+            $("#ModalDetail .modal-body").html(
+                '<ul>'
+                + '<li><strong>Id:</strong> ' + item.Id + '</li>'
+                + '<li><strong>Nome:</strong> ' + item.Name + '</li>'
+                + '<li><strong>Posti disponibili:</strong> ' + item.SeatsNumber + '</li>'
+                + '<li><strong>Edificio:</strong> ' + item.BuildingName + '</li>'
+                + '<li><strong>Disponibile:</strong> ' + item.IsAvailable + '</li>'
+                + '<li><strong>Data Inserimento:</strong> ' + new Date(item.CreatedOn).toLocaleDateString('it-IT', optionsDate) + '</li>'
+                + '<li><strong>Data Aggiornamento:</strong> ' + new Date(item.UpdatedOn).toLocaleDateString('it-IT', optionsDate) + '</li>'
+                + '</ul>'
+            );
+
+            $('#ModalDetail').modal({ show: true });
+        })
+        .fail(function (jqXHR, textStatus, err) {
+            alertMsg("DANGER", "Si è verificato un errore nel caricamento dei dettagli della sala", 0);
+        });
+}
+
 function addRoom(): void {
+
+    //check values
+    let isInvalid: boolean;
+    $("#ModalInsertRoomForm input").each(function () {
+        if (!$(this).val()) {
+            $(this).removeClass('is-valid')
+            $(this).addClass('is-invalid')
+            isInvalid = true;
+        }
+        else {
+            $(this).removeClass('is-invalid')
+            $(this).addClass('is-valid')
+        }
+    });
+
+    if ($("#inputRoomBuildings option:selected").val() == 0) {
+        isInvalid = true;
+        $("#inputRoomBuildings").addClass('is-invalid')
+        $("#inputRoomBuildings").removeClass('is-valid')
+    }
+    else {
+        $("#inputRoomBuildings").removeClass('is-invalid')
+        $("#inputRoomBuildings").addClass('is-valid')
+    }
+        
+
+    if (isInvalid) {
+        alertMsg("DANGER", "Tutti i campi sono obbligatori", 0);
+        return;
+    }
+
+    //call api
     $.ajax({
         type: "POST",
         url: apiUri + '/room/add',
@@ -82,66 +254,22 @@ function addRoom(): void {
             IsAvailable: true
         })
     }).done(function (data) {
+
+        //update rooms table
         getRooms();
-        $('#ModalInsertBooking').modal('toggle');
-        (<any>$('#ModalInsertBooking').find('form')[0]).reset();
+
+        //close modal
+        $('#ModalInsertRoom').modal('toggle');
+        (<any>$('#ModalInsertRoom').find('form')[0]).reset();
         alertMsg("SUCCESS", "Sala inserita con successo", 0);
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        
+        alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
     });
 }
 
-function getBuildings() {
-
-    $.getJSON(apiUri + '/building/get/all')
-        .done((buildings: BuildingDto[]) => {
-
-            $("#inputRoomBuildings").empty();
-            buildingsTable.clear();
-            $('#inputRoomBuildings').append('<option value=0 selected="selected">Seleziona..</option>');
-
-            $.each(buildings, (key, item: BuildingDto) => {
-
-                buildingsTable.row.add(
-                    [
-                        item.Id,
-                        item.Name,
-                        item.Address,
-                        item.City
-                    ]
-                );
-
-                $('#inputRoomBuildings').append('<option value=' + item.Id + '>' + item.Name + '</option>');
-            });
-
-            buildingsTable.draw();
-
-        })
-        .fail(function (jqXHR, textStatus, err) {
-            alertMsg("DANGER", "Si è verificato un errore nel caricamento degli edifici", 0);
-        });
-}
-
-function addBuilding(): void {
-    $.ajax({
-        type: "POST",
-        url: apiUri + '/building/add',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            Name: $('#inputBuildingName').val(),
-            Address: $('#inputBuildingAddress').val(),
-            City: $('#inputBuildingCity').val(),
-            IsAvailable: true
-        })
-    }).done(function (data) {
-        getBuildings();
-        $('#ModalInsertBuilding').modal('toggle');
-        (<any>$('#ModalInsertBuilding').find('form')[0]).reset();
-        alertMsg("SUCCESS", "Edificio inserito con successo", 0);
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
-    });
-}
+//**********************************************************************
+//      EMPLOYEES
+//**********************************************************************
 
 function getEmployees() {
 
@@ -220,7 +348,6 @@ function addBooking(): void {
 }
 
 function alertMsg(errType, errMsg, isPermanent) {
-    console.log('Funzione chiamata')
     var alertClass;
     var alertDiv;
 
@@ -256,5 +383,15 @@ function alertMsg(errType, errMsg, isPermanent) {
 };
 
 function showModal(id: string) {
+    $('#' + id + ' input').each(function () {
+        $(this).val("");
+        $(this).removeClass('is-valid');
+        $(this).removeClass('is-invalid');
+    });
+
+    $("#inputRoomBuildings").val($("#inputRoomBuildings option:first").val());
+    $("#inputRoomBuildings").removeClass('is-valid');
+    $("#inputRoomBuildings").removeClass('is-invalid');
+
     $('#' + id).modal({ show: true });
 }

@@ -9,5 +9,6 @@ namespace BookingRooms.DAL.Repositories
 {
     public interface IRoomRepository : IRepository<Room>
     {
+        Room GetRoomById(int id);
     }
 }

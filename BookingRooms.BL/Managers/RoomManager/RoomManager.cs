@@ -27,6 +27,7 @@ namespace BookingRooms.BL.Managers
                 Name = r.Name,
                 SeatsNumber = r.SeatsNumber,
                 BuildingId = r.BuildingId,
+                BuildingName = r?.Building?.Name,
                 IsAvailable = r.IsAvailable,
                 CreatedOn = r.CreatedOn.Value,
                 UpdatedOn = r.UpdatedOn.Value
@@ -73,13 +74,12 @@ namespace BookingRooms.BL.Managers
                 }
                 else
                 {
-                    LogManager.Warning($"E' già presente una stanza con nome {r.Name})");
+                    throw new Exception($"E' già presente una stanza con nome {r.Name})");
                 }
 
             }
             catch(Exception ex)
             {
-                LogManager.Error($"Errore nell'inserimento della stanza (id:{r.Id})");
                 LogManager.Error(ex);
                 throw ex;
             }
@@ -87,7 +87,7 @@ namespace BookingRooms.BL.Managers
 
         public RoomDto GetRoomById(int id)
         {
-            var r = _roomRepository.GetById(id);
+            var r = _roomRepository.GetRoomById(id);
 
             if (r != null)
                 return MapTo(r);
