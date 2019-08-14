@@ -142,7 +142,6 @@ function addBuilding(): void {
 
         //close modal
         $('#ModalInsertBuilding').modal('toggle');
-        (<any>$('#ModalInsertBuilding').find('form')[0]).reset();
         alertMsg("SUCCESS", "Edificio inserito con successo", 0);
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -234,8 +233,7 @@ function addRoom(): void {
     else {
         $("#inputRoomBuildings").removeClass('is-invalid')
         $("#inputRoomBuildings").addClass('is-valid')
-    }
-        
+    }  
 
     if (isInvalid) {
         alertMsg("DANGER", "Tutti i campi sono obbligatori", 0);
@@ -260,7 +258,6 @@ function addRoom(): void {
 
         //close modal
         $('#ModalInsertRoom').modal('toggle');
-        (<any>$('#ModalInsertRoom').find('form')[0]).reset();
         alertMsg("SUCCESS", "Sala inserita con successo", 0);
     }).fail(function (jqXHR, textStatus, errorThrown) {
         alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
@@ -276,8 +273,8 @@ function getEmployees() {
     $.getJSON(apiUri + '/employee/get/all')
         .done((employees: EmployeeDto[]) => {
 
-            $('#inputBookingEmployee').empty();
             employeesTable.clear();
+            $('#inputBookingEmployee').empty();
             $('#inputBookingEmployee').append('<option value=0 selected="selected">Seleziona..</option>');
            
             $.each(employees, (key, item: EmployeeDto) => {
@@ -288,7 +285,8 @@ function getEmployees() {
                         item.Name,
                         item.Surname,
                         item.Username,
-                        item.EmailAddress
+                        item.EmailAddress,
+                        '<button type="button" class="btn btn btn-link btn-sm" onclick="getEmployeeById(' + item.Id + ')"><i class="fas fa-info-circle"></i> detail</button>'
                     ]
                 );
 
@@ -302,6 +300,80 @@ function getEmployees() {
             alertMsg("DANGER", "Si è verificato un errore nel caricamento delle risorse", 0);
         });
 }
+
+function getEmployeeById(id: number): void {
+
+    $.getJSON(apiUri + '/employee/get/' + id)
+        .done((item: EmployeeDto) => {
+
+            $("#ModalDetail .modal-body").html(
+                '<ul>'
+                + '<li><strong>Id:</strong> ' + item.Id + '</li>'
+                + '<li><strong>Nome:</strong> ' + item.Name + '</li>'
+                + '<li><strong>Cognome:</strong> ' + item.Surname + '</li>'
+                + '<li><strong>Username:</strong> ' + item.Username + '</li>'
+                + '<li><strong>Indirizzo Mail:</strong> ' + item.EmailAddress + '</li>'
+                + '<li><strong>Disponibile:</strong> ' + item.IsAvailable + '</li>'
+                + '<li><strong>Data Inserimento:</strong> ' + new Date(item.CreatedOn).toLocaleDateString('it-IT', optionsDate) + '</li>'
+                + '<li><strong>Data Aggiornamento:</strong> ' + new Date(item.UpdatedOn).toLocaleDateString('it-IT', optionsDate) + '</li>'
+                + '</ul>'
+            );
+
+            $('#ModalDetail').modal({ show: true });
+        })
+        .fail(function (jqXHR, textStatus, err) {
+            alertMsg("DANGER", "Si è verificato un errore nel caricamento dei dettagli della risorsa", 0);
+        });
+}
+
+function addEmployee(): void {
+
+    //check values
+    let isInvalid: boolean;
+    $("#ModalInsertEmployeeForm input").each(function () {
+        if (!$(this).val()) {
+            $(this).removeClass('is-valid')
+            $(this).addClass('is-invalid')
+            isInvalid = true;
+        }
+        else {
+            $(this).removeClass('is-invalid')
+            $(this).addClass('is-valid')
+        }
+    });
+
+    if (isInvalid) {
+        alertMsg("DANGER", "Tutti i campi sono obbligatori", 0);
+        return;
+    }
+
+    //call api
+    $.ajax({
+        type: "POST",
+        url: apiUri + '/employee/add',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            Id: $('#inputEmployeeId').val(),
+            Name: $('#inputEmployeeName').val(),
+            Surname: $('#inputEmployeeSurname').val(),
+            IsAvailable: true
+        })
+    }).done(function (data) {
+
+        //update employees table
+        getEmployees();
+
+        //close modal
+        $('#ModalInsertEmployee').modal('toggle');
+        alertMsg("SUCCESS", "Risorsa inserita con successo", 0);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
+    });
+}
+
+//**********************************************************************
+//      BOOKING
+//**********************************************************************
 
 function getBookings() {
 
@@ -392,6 +464,8 @@ function showModal(id: string) {
     $("#inputRoomBuildings").val($("#inputRoomBuildings option:first").val());
     $("#inputRoomBuildings").removeClass('is-valid');
     $("#inputRoomBuildings").removeClass('is-invalid');
+
+    (<any>$('#' + id).find('form')[0]).reset();
 
     $('#' + id).modal({ show: true });
 }

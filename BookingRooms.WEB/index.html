@@ -162,6 +162,7 @@
                             <th class="th-sm">Cognome</th>
                             <th class="th-sm">Username</th>
                             <th class="th-sm">Indirizzo Email</th>
+                            <th class="th-sm">Info</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -302,39 +303,43 @@
     </div>
 
     <!-- Modal Insert Employee -->
-    <div class="modal fade" id="ModalInsertEmployee" tabindex="-1" role="dialog" aria-labelledby="ModalInsertEmployee" aria-hidden="true">
+    <div class="modal fade" id="ModalInsertEmployee" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="ModalInsertEmployee" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="ModalInsertEmployeeTitle">Nuova Risorsa</h3>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="ModalInsertEmployeeForm">
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="inputEmployeeName">Nome</label>
-                                <input type="text" class="form-control" id="inputEmployeeName" placeholder="Nome">
+                            <div class="form-group col-md-4">
+                                <label for="inputEmployeeId">Id</label>
+                                <input type="number" class="form-control form-control-sm" id="inputEmployeeId" placeholder="Id" min="1" required>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
+                                <label for="inputEmployeeName">Nome</label>
+                                <input type="text" class="form-control form-control-sm" id="inputEmployeeName" placeholder="Nome" maxlength="50" required>
+                            </div>
+                            <div class="form-group col-md-4">
                                 <label for="inputEmployeeSurname">Cognome</label>
-                                <input type="text" class="form-control" id="inputEmployeeSurname" placeholder="Cognome">
+                                <input type="text" class="form-control form-control-sm" id="inputEmployeeSurname" placeholder="Cognome" maxlength="50" required>
                             </div>
                         </div>
-                        <div class="form-row" id="form-row-info">
+                        <!--<div class="form-row" id="form-row-info">
                             <div class="form-group col-md-6">
                                 <label for="inputEmployeeEmailAddress">Email</label>
-                                <input type="email" class="form-control" id="inputEmployeeEmailAddress" readonly>
+                                <input type="email" class="form-control form-control-sm" id="inputEmployeeEmailAddress" readonly>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputEmployeeUsername">Username</label>
-                                <input type="text" class="form-control" id="inputEmployeeUsername" readonly>
+                                <input type="text" class="form-control form-control-sm" id="inputEmployeeUsername" readonly>
                             </div>
-                        </div>
+                        </div>-->
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                    <button type="submit" class="btn btn-primary" onclick="addEmployee()">Inserisci</button>
+                    <button type="reset" class="btn btn-danger btn-sm" data-dismiss="modal">Annulla</button>
+                    <button type="button" class="btn btn-success btn-sm" onclick="addEmployee()">Inserisci</button>
                 </div>
             </div>
         </div>

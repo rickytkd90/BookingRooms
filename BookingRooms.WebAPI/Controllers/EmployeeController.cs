@@ -74,7 +74,10 @@ namespace BookingRooms.WebAPI.Controllers
         [HttpPost]
         public void InsertNewResource(EmployeeDto employee)
         {
-            _employeeManager.InsertEmployee(employee);
+            if(employee != null && ModelState.IsValid)
+                _employeeManager.InsertEmployee(employee);
+            else
+                throw new Exception("I valori indicati per la nuova risorsa non sono validi");
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using BookingRooms.BL.Model;
 using BookingRooms.Common;
@@ -50,23 +51,23 @@ namespace BookingRooms.BL.Managers
             };
         }
 
-        public void InsertEmployee(EmployeeDto employee)
+        public void InsertEmployee(EmployeeDto e)
         {
             try
             {
                 //check if already exist employee with the same id
-                var e = _employeeRepository.GetById(employee.Id);
+                var exist = _employeeRepository.GetAll().Any(x => x.Id == e.Id);
 
-                if (e == null)
+                if (!exist)
                 {
                     Employee newEmployee = new Employee()
                     {
-                        Id = employee.Id,
-                        Name = employee.Name,
-                        Surname = employee.Surname,
-                        Username = GenerateUsername(employee.Name, employee.Surname),
-                        EmailAddress = GenerateEmailAddress(employee.Name, employee.Surname),
-                        IsAvailable = true,
+                        Id = e.Id,
+                        Name = e.Name,
+                        Surname = e.Surname,
+                        Username = GenerateUsername(e.Name, e.Surname),
+                        EmailAddress = GenerateEmailAddress(e.Name, e.Surname),
+                        IsAvailable = e.IsAvailable,
                         CreatedOn = DateTime.Now,
                         UpdatedOn = DateTime.Now
                     };
@@ -78,7 +79,7 @@ namespace BookingRooms.BL.Managers
                 }
                 else
                 {
-                    LogManager.Warning($"Esiste già una risors con id:{employee.Id}");
+                    throw new Exception($"E' già presente una risorsa con id:{e.Id}");
                 }
             }
             catch(Exception ex)
@@ -90,14 +91,18 @@ namespace BookingRooms.BL.Managers
 
         public string GenerateUsername(string name, string surname)
         {
+            //normalize input
+            surname = Regex.Replace(surname, @"[^0-9a-zA-Z]+", "").Trim().ToLower();
+            name = Regex.Replace(name, @"[^0-9a-zA-Z]+", "").Trim().ToLower();
+
             var us1 = (surname.Length >= 5) ? surname.Substring(0, 5) : surname;
             var us2 = name.Substring(0, 2);
             var us3 = 1;
 
             while (true)
             {
-                var username = $"{us1}{us2}{us3}".ToLower();
-                if (_employeeRepository.Find(x => x.Username == username) == null)
+                var username = $"{us1}{us2}{us3}";
+                if (_employeeRepository.Find(x => x.Username == username).Count() == 0)
                     return username;
                 us3++;
             }
@@ -108,14 +113,17 @@ namespace BookingRooms.BL.Managers
             var k = 0;
             var emailAddress = string.Empty;
             var domain = ConfigurationManager.AppSettings.Get("emailDomain");
+            surname = Regex.Replace(surname, @"[^0-9a-zA-Z]+", "").Trim().ToLower();
+            name = Regex.Replace(name, @"[^0-9a-zA-Z]+", "").Trim().ToLower();
+
             while (true)
             {
                 if(k==0)
-                    emailAddress = $"{name}.{surname}{domain}".ToLower();
+                    emailAddress = $"{name}.{surname}{domain}";
                 else
-                    emailAddress = $"{name}.{surname}{k.ToString()}{domain}".ToLower();
+                    emailAddress = $"{name}.{surname}{k.ToString()}{domain}";
 
-                if (_employeeRepository.Find(x => x.EmailAddress == emailAddress) == null)
+                if (_employeeRepository.Find(x => x.EmailAddress == emailAddress).Count() == 0)
                     return emailAddress;
                 k++;
             }
