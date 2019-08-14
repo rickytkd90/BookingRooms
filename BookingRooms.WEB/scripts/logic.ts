@@ -1,4 +1,5 @@
 ﻿import { RoomDto, BuildingDto, EmployeeDto, BookingDto } from "../models/models";
+import { Data } from "popper.js";
 
 const apiUri: string = 'https://localhost:44305/api';
 let _self = this;
@@ -6,7 +7,7 @@ let optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit' }
 let buildingsTable = null;
 let roomsTable = null;
 let employeesTable = null;
-//let bookingsTable = null;
+let bookingsTable = null;
 
 //StartUp
 $(document).ready(() => {
@@ -26,15 +27,16 @@ $(document).ready(() => {
         "searching": false
     });
 
-    //bookingsTable = (<any>$('#bookings-table')).DataTable({
-    //    "pagingType": "simple_numbers",
-    //    "searching": false
-    //});
+    bookingsTable = (<any>$('#bookings-table')).DataTable({
+        "pagingType": "simple_numbers",
+        //"searching": false
+    });
 
+    _self.getBookings();
     _self.getRooms();
     _self.getBuildings();
     _self.getEmployees();
-    //_self.getBookings();
+    
 
     $('input').change(function () {
         $(this).removeClass('is-valid');
@@ -380,24 +382,97 @@ function getBookings() {
     $.getJSON(apiUri + '/booking/get/all')
         .done((bookings: BookingDto[]) => {
 
+            bookingsTable.clear();
+
             $.each(bookings, (key, item: BookingDto) => {
-                $('#employees-table').append('<tr><th>' +
-                    '<div><span class="glyphicon glyphicon-record add-new-icon" data-toggle="modal" data-target="#detail-modal" onclick="openDetailRoom(' + item.Id + ')"></span></div>' +
-                    '</th><td class="filter">' + item.Id + '</td><td class="hidden-sm hidden-xs">' + item.BookedTo + '</td><td>');
+
+                bookingsTable.row.add(
+                    [
+                        item.Id,
+                        item.EmployeeUsername,
+                        item.RoomName,
+                        new Date(item.BookedFrom).toLocaleString('it-IT'),
+                        new Date(item.BookedTo).toLocaleString('it-IT'),
+                        '<button type="button" class="btn btn btn-link btn-sm" onclick="getBookingById(' + item.Id + ')"><i class="fas fa-info-circle"></i> detail</button>'
+                    ]
+                );
             });
 
-            (<any>$('#bookings-table')).DataTable({
-                "pagingType": "simple_numbers",
-                "searching": false
-            });
+            bookingsTable.draw();
 
         })
         .fail(function (jqXHR, textStatus, err) {
             alertMsg("DANGER", "Si è verificato un errore nel caricamento delle prenotazioni", 0);
         });
+
+}
+
+function getBookingById(id: number): void {
+
+    $.getJSON(apiUri + '/booking/get/' + id)
+        .done((item: BookingDto) => {
+
+            $("#ModalDetail .modal-body").html(
+                '<ul>'
+                + '<li><strong>Id:</strong> ' + item.Id + '</li>'
+                + '<li><strong>Username Risorsa:</strong> ' + item.EmployeeUsername + '</li>'
+                + '<li><strong>Nome Sala:</strong> ' + item.RoomName + '</li>'
+                + '<li><strong>Sala prenotata da:</strong> ' + new Date(item.BookedFrom).toLocaleString('it-IT') + '</li>'
+                + '<li><strong>A:</strong> ' + new Date(item.BookedTo).toLocaleString('it-IT') + '</li>'
+                + '<li><strong>Descrizione:</strong> ' + item.Description + '</li>'
+                + '<li><strong>Data Inserimento:</strong> ' + new Date(item.CreatedOn).toLocaleDateString('it-IT', optionsDate) + '</li>'
+                + '<li><strong>Data Aggiornamento:</strong> ' + new Date(item.UpdatedOn).toLocaleDateString('it-IT', optionsDate) + '</li>'
+                + '</ul>'
+            );
+
+            $('#ModalDetail').modal({ show: true });
+        })
+        .fail(function (jqXHR, textStatus, err) {
+            alertMsg("DANGER", "Si è verificato un errore nel caricamento dei dettagli della sala", 0);
+        });
 }
 
 function addBooking(): void {
+
+    //check values
+    let isInvalid: boolean;
+    $("#ModalInsertBookingForm input").each(function () {
+        if (!$(this).val()) {
+            $(this).removeClass('is-valid')
+            $(this).addClass('is-invalid')
+            isInvalid = true;
+        }
+        else {
+            $(this).removeClass('is-invalid')
+            $(this).addClass('is-valid')
+        }
+    });
+
+    if ($("#inputBookingEmployee option:selected").val() == 0) {
+        isInvalid = true;
+        $("#inputBookingEmployee").addClass('is-invalid')
+        $("#inputBookingEmployee").removeClass('is-valid')
+    }
+    else {
+        $("#inputBookingEmployee").removeClass('is-invalid')
+        $("#inputBookingEmployee").addClass('is-valid')
+    }
+
+    if ($("#inputBookingRoom option:selected").val() == 0) {
+        isInvalid = true;
+        $("#inputBookingRoom").addClass('is-invalid')
+        $("#inputBookingRoom").removeClass('is-valid')
+    }
+    else {
+        $("#inputBookingRoom").removeClass('is-invalid')
+        $("#inputBookingRoom").addClass('is-valid')
+    }
+
+    if (isInvalid) {
+        alertMsg("DANGER", "Tutti i campi sono obbligatori", 0);
+        return;
+    }
+
     $.ajax({
         type: "POST",
         url: apiUri + '/booking/add',
@@ -406,18 +481,25 @@ function addBooking(): void {
             EmployeeId: $('#inputBookingEmployee').val(),
             RoomId: $('#inputBookingRoom').val(),
             Description: $('#inputBookingDescription').val(),
-            BookedFrom: $('#inputBookingBookedFrom').val(),
-            BookedTo: $('#inputBookingBookedTo').val(),
+            BookedFrom: convertDate($('#inputBookingBookedFrom').val().toString()),
+            BookedTo: convertDate($('#inputBookingBookedTo').val().toString()),
         })
     }).done(function (data) {
+
+        //update bookings table
         getBookings();
+
+        //close modal
         $('#ModalInsertBooking').modal('toggle');
-        (<any>$('#ModalInsertBooking').find('form')[0]).reset();
         alertMsg("SUCCESS", "Prenotazione inserita con successo", 0);
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        alert("Si è verificato un errore nell'inserimento della prenotazione");
+        alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
     });
 }
+
+//**********************************************************************
+//      UTILITIES
+//**********************************************************************
 
 function alertMsg(errType, errMsg, isPermanent) {
     var alertClass;
@@ -465,7 +547,23 @@ function showModal(id: string) {
     $("#inputRoomBuildings").removeClass('is-valid');
     $("#inputRoomBuildings").removeClass('is-invalid');
 
+    $("#inputBookingEmployee").val($("#inputBookingEmployee option:first").val());
+    $("#inputBookingEmployee").removeClass('is-valid');
+    $("#inputBookingEmployee").removeClass('is-invalid');
+
+    $("#inputBookingRoom").val($("#inputBookingRoom option:first").val());
+    $("#inputBookingRoom").removeClass('is-valid');
+    $("#inputBookingRoom").removeClass('is-invalid');
+
     (<any>$('#' + id).find('form')[0]).reset();
 
     $('#' + id).modal({ show: true });
+}
+
+function convertDate(date: string): Date {
+    var dateParts = date.split("/");
+    var timeParts = dateParts[2].split(" ")[1].split(":");
+    var data = new Date(Date.UTC(+dateParts[2].split(" ")[0], +dateParts[1] - 1, +dateParts[0], +timeParts[0], +timeParts[1]));
+    console.log(data);
+    return data;
 }

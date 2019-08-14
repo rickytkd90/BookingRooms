@@ -8,5 +8,7 @@ namespace BookingRooms.DAL.Repositories
 {
     public interface IBookingRepository : IRepository<Booking>
     {
+        IEnumerable<Booking> GetAllBookings();
+        Booking GetBookingById(int id);
     }
 }

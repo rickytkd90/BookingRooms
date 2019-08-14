@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookingRooms.DAL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,7 +15,9 @@ namespace BookingRooms.BL.Model
     {
         public int Id { get; set; }
         public int EmployeeId { get; set; }
+        public string EmployeeUsername { get; set; }
         public int RoomId { get; set; }
+        public string RoomName { get; set; } 
         public string Description { get; set; }
         public DateTime BookedFrom { get; set; }
         public DateTime BookedTo { get; set; }

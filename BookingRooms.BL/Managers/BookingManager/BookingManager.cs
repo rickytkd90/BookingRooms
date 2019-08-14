@@ -23,7 +23,9 @@ namespace BookingRooms.BL.Managers
             {
                 Id = b.Id,
                 EmployeeId = b.EmployeeId,
+                EmployeeUsername = b.Employee.Username,
                 RoomId = b.RoomId,
+                RoomName = b.Room.Name,
                 Description = b.Description,
                 BookedFrom = b.BookedFrom,
                 BookedTo = b.BookedTo,
@@ -52,10 +54,17 @@ namespace BookingRooms.BL.Managers
             try
             {
                 //check if the reservation already exists for the room
-                var existBooking = (_bookingRepository.GetAll().Where(X => b.BookedFrom >= b.BookedFrom && b.BookedTo <= b.BookedTo && b.RoomId == b.RoomId).Count()) > 0;
+                var exist = (
+                    _bookingRepository.GetAll()
+                    .Where(
+                        x => 
+                            x.RoomId == b.RoomId &&
+                            x.BookedFrom >= b.BookedFrom && 
+                            x.BookedTo <= b.BookedTo 
+                     ).Count()) > 0;
 
                 //insert the riservation if room is available
-                if (!existBooking)
+                if (!exist)
                 {
                     Booking newB = new Booking()
                     {
@@ -74,12 +83,11 @@ namespace BookingRooms.BL.Managers
                 }
                 else
                 {
-                    LogManager.Warning($"Impossibile inserire la prenotazione. La sala è già prenotata (RoomId:{b.RoomId}, From:{b.BookedFrom}, To:{b.BookedTo})");
+                    throw new Exception($"Impossibile inserire la prenotazione. La sala è già prenotata");
                 }
             }
             catch(Exception ex)
             {
-                LogManager.Error($"Errore nell'insermineto della prenotazione (RoomId:{b.RoomId}, From:{b.BookedFrom}, To:{b.BookedTo})");
                 LogManager.Error(ex);
                 throw ex;
             }
@@ -87,7 +95,7 @@ namespace BookingRooms.BL.Managers
 
         public BookingDto GetBookingById(int id)
         {
-            var b = _bookingRepository.GetById(id);
+            var b = _bookingRepository.GetBookingById(id);
 
             if (b != null)
                 return MapTo(b);
@@ -98,7 +106,7 @@ namespace BookingRooms.BL.Managers
 
         public IEnumerable<BookingDto> GetBookings()
         {
-            return _bookingRepository.GetAll().Select(b => MapTo(b));
+            return _bookingRepository.GetAllBookings().Select(b => MapTo(b));
         }
 
         public void DeleteBooking(int id)

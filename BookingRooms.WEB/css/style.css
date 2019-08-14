@@ -46,6 +46,7 @@ th {
 
 thead {
     background-color: #932E54 /*#A9502E*/;
+    border-color: #932E54;
     color: white;
 }
 
@@ -56,4 +57,8 @@ thead {
 tr td:first-child,
 tr td:last-child {
     text-align: center;
+}
+
+.btn-link {
+    color: #932E54
 }

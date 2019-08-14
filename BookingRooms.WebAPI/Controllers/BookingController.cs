@@ -64,5 +64,20 @@ namespace BookingRooms.WebAPI.Controllers
         {
             _bookingManager.InsertBooking(booking);
         }
+
+        /// <summary>
+        /// Get Booking list
+        /// </summary>
+        /// <returns>Booking list</returns>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [Route("get/all")]
+        [ResponseType(typeof(IEnumerable<BookingDto>))]
+        [HttpGet]
+        public IHttpActionResult GetBookings()
+        {
+            return Ok(_bookingManager.GetBookings());
+        }
     }
 }

@@ -35,7 +35,9 @@ export class EmployeeDto {
 export class BookingDto {
     Id: number;
     EmployeeId: number;
+    EmployeeUsername: string;
     RoomId: number;
+    RoomName: string;
     Description: string;
     BookedFrom: Date;
     BookedTo: Date;

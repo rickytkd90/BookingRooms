@@ -52,7 +52,6 @@
         </div>
     </nav>
 
-    <!-- Welcome Section -->
     <header class="bg-light">
         <div class="container text-center">
             <h2>Piattaforma di gestione e prenotazione sale</h2>
@@ -60,7 +59,6 @@
         </div>
     </header>
 
-    <!-- Booking Section -->
     <section id="bookings" style="min-height:600px;">
         <div class="container">
             <!--Button trigger modal-->
@@ -79,8 +77,8 @@
                             <th class="th-sm">Id</th>
                             <th class="th-sm">Risorsa</th>
                             <th class="th-sm">Sala</th>
-                            <th class="th-sm">Prenotata Da:</th>
-                            <th class="th-sm">A:</th>
+                            <th class="th-sm" style="min-width:80px;">Prenotata Da:</th>
+                            <th class="th-sm" style="min-width:80px;">Prenotata fino A:</th>
                             <th class="th-sm">Info</th>
                         </tr>
                     </thead>
@@ -188,18 +186,17 @@
                     <h3 class="modal-title" id="ModalInsertBookingTitle">Nuova prenotazione</h3>
                 </div>
                 <div class="modal-body">
-
-                    <form>
+                    <form id="ModalInsertBookingForm" autocomplete="off">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputBookingEmployee">Risorsa</label>
-                                <select id="inputBookingEmployee" class="form-control" required>
+                                <select id="inputBookingEmployee" class="form-control form-control-sm" required>
                                     <option selected>Seleziona..</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputBookingRoom">Sala</label>
-                                <select id="inputBookingRoom" class="form-control" required>
+                                <select id="inputBookingRoom" class="form-control form-control-sm" required>
                                     <option selected>Choose...</option>
                                 </select>
                             </div>
@@ -207,26 +204,24 @@
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="inputBookingDescription">Descrizione</label>
-                                <textarea class="form-control" id="inputBookingDescription"></textarea>
+                                <textarea class="form-control form-control-sm" id="inputBookingDescription" maxlength="200"></textarea>
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label for="inputBookingBookedFrom">Prenota Da:</label>
-                                <input type="text" class="form-control datetimepicker-input" id="inputBookingBookedFrom" data-toggle="datetimepicker" data-target="#inputBookingBookedFrom" required />
+                                <input type="datetime" class="form-control form-control-sm datetimepicker-input" id="inputBookingBookedFrom" data-toggle="datetimepicker" data-target="#inputBookingBookedFrom" required />
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label for="inputBookingBookedTo">A:</label>
-                                <input type="text" class="form-control datetimepicker-input" id="inputBookingBookedTo" data-toggle="datetimepicker" data-target="#inputBookingBookedTo" required />
+                                <input type="datetime" class="form-control form-control-sm datetimepicker-input" id="inputBookingBookedTo" data-toggle="datetimepicker" data-target="#inputBookingBookedTo" required />
                             </div>
                         </div>
-
                     </form>
-
                 </div>
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                    <button type="submit" class="btn btn-primary" onclick="addBooking()">Inserisci</button>
+                    <button type="reset" class="btn btn-danger btn-sm" data-dismiss="modal">Annulla</button>
+                    <button type="button" class="btn btn-success btn-sm" onclick="addBooking()">Inserisci</button>
                 </div>
             </div>
         </div>
@@ -240,7 +235,7 @@
                     <h3 class="modal-title" id="ModalInsertBuildingTitle">Nuovo Edificio</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="ModalInsertBuildingForm">
+                    <form id="ModalInsertBuildingForm" autocomplete="off">
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="inputBuildingName">Nome</label>
@@ -275,7 +270,7 @@
                     <h3 class="modal-title" id="ModalInsertRoomTitle">Nuovo Edificio</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="ModalInsertRoomForm">
+                    <form id="ModalInsertRoomForm" autocomplete="off">
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="inputRoomName">Nome</label>
@@ -310,7 +305,7 @@
                     <h3 class="modal-title" id="ModalInsertEmployeeTitle">Nuova Risorsa</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="ModalInsertEmployeeForm">
+                    <form id="ModalInsertEmployeeForm" autocomplete="off">
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="inputEmployeeId">Id</label>
