@@ -61,7 +61,7 @@ namespace BookingRooms.BL.Managers
                     {
                         Name = r.Name,
                         SeatsNumber = r.SeatsNumber,
-                        IsAvailable = true,
+                        IsAvailable = r.IsAvailable,
                         BuildingId = r.BuildingId,
                         CreatedOn = DateTime.Now,
                         UpdatedOn = DateTime.Now

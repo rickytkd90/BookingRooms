@@ -50,7 +50,8 @@ function getBuildings() {
                 item.City,
                 '<button type="button" class="btn btn-info btn-sm" onclick="getBuildingById(' + item.Id + ')"><i class="fas fa-info-circle"></i> Dettagli</button>'
             ]);
-            $('#inputRoomBuildings').append('<option value=' + item.Id + '>' + item.Name + '</option>');
+            if (item.IsAvailable)
+                $('#inputRoomBuildings').append('<option value=' + item.Id + '>' + item.Name + '</option>');
         });
         buildingsTable.draw();
         sortDropdownValue("inputRoomBuildings");
@@ -80,7 +81,7 @@ function getBuildingById(id) {
 function addBuilding() {
     //check values
     let isInvalid;
-    $("#ModalInsertBuildingForm input").each(function () {
+    $("#ModalInsertBuildingForm input[type=text], #ModalInsertBuildingForm input[type=text] select").each(function () {
         if (!$(this).val()) {
             $(this).removeClass('is-valid');
             $(this).addClass('is-invalid');
@@ -104,7 +105,7 @@ function addBuilding() {
             Name: $('#inputBuildingName').val(),
             Address: $('#inputBuildingAddress').val(),
             City: $('#inputBuildingCity').val(),
-            IsAvailable: true
+            IsAvailable: $('#inputBuildingAvailable')[0].checked
         })
     }).done(function (data) {
         //update buildings table
@@ -132,7 +133,8 @@ function getRooms() {
                 item.SeatsNumber,
                 '<button type="button" class="btn btn-info btn-sm" onclick="getRoomById(' + item.Id + ')"><i class="fas fa-info-circle"></i> Dettagli</button>'
             ]);
-            $('#inputBookingRoom').append('<option value=' + item.Id + '>' + item.Name + '</option>');
+            if (item.IsAvailable)
+                $('#inputBookingRoom').append('<option value=' + item.Id + '>' + item.Name + '</option>');
         });
         roomsTable.draw();
         sortDropdownValue("inputBookingRoom");
@@ -162,7 +164,7 @@ function getRoomById(id) {
 function addRoom() {
     //check values
     let isInvalid;
-    $("#ModalInsertRoomForm input").each(function () {
+    $("#ModalInsertRoomForm input[type=text], #ModalInsertRoomForm select").each(function () {
         if (!$(this).val()) {
             $(this).removeClass('is-valid');
             $(this).addClass('is-invalid');
@@ -195,7 +197,7 @@ function addRoom() {
             Name: $('#inputRoomName').val(),
             SeatsNumber: $('#inputRoomSeatsNumber').val(),
             BuildingId: $('#inputRoomBuildings').val(),
-            IsAvailable: true
+            IsAvailable: $('#inputRoomAvailable')[0].checked
         })
     }).done(function (data) {
         //update rooms table
@@ -225,7 +227,8 @@ function getEmployees() {
                 item.EmailAddress,
                 '<button type="button" class="btn btn-info btn-sm" onclick="getEmployeeById(' + item.Id + ')"><i class="fas fa-info-circle"></i> Dettagli</button>'
             ]);
-            $('#inputBookingEmployee').append('<option value=' + item.Id + '>' + item.Surname + ' ' + item.Name + ' (' + item.Username + ') </option>');
+            if (item.IsAvailable)
+                $('#inputBookingEmployee').append('<option value=' + item.Id + '>' + item.Surname + ' ' + item.Name + ' (' + item.Username + ') </option>');
         });
         employeesTable.draw();
         sortDropdownValue("inputBookingEmployee");
@@ -256,7 +259,7 @@ function getEmployeeById(id) {
 function addEmployee() {
     //check values
     let isInvalid;
-    $("#ModalInsertEmployeeForm input").each(function () {
+    $("#ModalInsertEmployeeForm input[type=text], #ModalInsertEmployeeForm select").each(function () {
         if (!$(this).val()) {
             $(this).removeClass('is-valid');
             $(this).addClass('is-invalid');
@@ -280,7 +283,7 @@ function addEmployee() {
             Id: $('#inputEmployeeId').val(),
             Name: $('#inputEmployeeName').val(),
             Surname: $('#inputEmployeeSurname').val(),
-            IsAvailable: true
+            IsAvailable: $('#inputEmployeeAvailable')[0].checked
         })
     }).done(function (data) {
         //update employees table

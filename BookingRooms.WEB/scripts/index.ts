@@ -73,7 +73,8 @@ function getBuildings(): void {
                     ]
                 );
 
-                $('#inputRoomBuildings').append('<option value=' + item.Id + '>' + item.Name + '</option>');
+                if (item.IsAvailable)
+                    $('#inputRoomBuildings').append('<option value=' + item.Id + '>' + item.Name + '</option>');
             });
 
             buildingsTable.draw();
@@ -113,7 +114,7 @@ function addBuilding(): void {
 
     //check values
     let isInvalid: boolean;
-    $("#ModalInsertBuildingForm input").each(function () {
+    $("#ModalInsertBuildingForm input[type=text], #ModalInsertBuildingForm input[type=text] select").each(function () {
         if (!$(this).val()) {
             $(this).removeClass('is-valid')
             $(this).addClass('is-invalid')
@@ -139,7 +140,7 @@ function addBuilding(): void {
             Name: $('#inputBuildingName').val(),
             Address: $('#inputBuildingAddress').val(),
             City: $('#inputBuildingCity').val(),
-            IsAvailable: true
+            IsAvailable: (<any>$('#inputBuildingAvailable')[0]).checked
         })
     }).done(function (data) {
 
@@ -179,7 +180,8 @@ function getRooms(): void {
                     ]
                 );
 
-                $('#inputBookingRoom').append('<option value=' + item.Id + '>' + item.Name + '</option>');
+                if (item.IsAvailable)
+                    $('#inputBookingRoom').append('<option value=' + item.Id + '>' + item.Name + '</option>');
 
             });
 
@@ -220,7 +222,7 @@ function addRoom(): void {
 
     //check values
     let isInvalid: boolean;
-    $("#ModalInsertRoomForm input").each(function () {
+    $("#ModalInsertRoomForm input[type=text], #ModalInsertRoomForm select").each(function () {
         if (!$(this).val()) {
             $(this).removeClass('is-valid')
             $(this).addClass('is-invalid')
@@ -256,7 +258,7 @@ function addRoom(): void {
             Name: $('#inputRoomName').val(),
             SeatsNumber: $('#inputRoomSeatsNumber').val(),
             BuildingId: $('#inputRoomBuildings').val(),
-            IsAvailable: true
+            IsAvailable: (<any>$('#inputRoomAvailable')[0]).checked
         })
     }).done(function (data) {
 
@@ -297,7 +299,8 @@ function getEmployees() {
                     ]
                 );
 
-                $('#inputBookingEmployee').append('<option value=' + item.Id + '>' + item.Surname + ' ' + item.Name + ' (' + item.Username + ') </option>');
+                if (item.IsAvailable)
+                    $('#inputBookingEmployee').append('<option value=' + item.Id + '>' + item.Surname + ' ' + item.Name + ' (' + item.Username + ') </option>');
             });
 
             employeesTable.draw();
@@ -338,7 +341,7 @@ function addEmployee(): void {
 
     //check values
     let isInvalid: boolean;
-    $("#ModalInsertEmployeeForm input").each(function () {
+    $("#ModalInsertEmployeeForm input[type=text], #ModalInsertEmployeeForm select").each(function () {
         if (!$(this).val()) {
             $(this).removeClass('is-valid')
             $(this).addClass('is-invalid')
@@ -364,7 +367,7 @@ function addEmployee(): void {
             Id: $('#inputEmployeeId').val(),
             Name: $('#inputEmployeeName').val(),
             Surname: $('#inputEmployeeSurname').val(),
-            IsAvailable: true
+            IsAvailable: (<any>$('#inputEmployeeAvailable')[0]).checked
         })
     }).done(function (data) {
 
