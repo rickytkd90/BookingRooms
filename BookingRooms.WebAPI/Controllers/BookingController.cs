@@ -79,5 +79,13 @@ namespace BookingRooms.WebAPI.Controllers
         {
             return Ok(_bookingManager.GetBookings());
         }
+
+        [Route("delete/{id:int}")]
+        [ResponseType(typeof(void))]
+        [HttpDelete]
+        public void DeleteBooking(int id)
+        {
+            _bookingManager.DeleteBooking(id);
+        }
     }
 }

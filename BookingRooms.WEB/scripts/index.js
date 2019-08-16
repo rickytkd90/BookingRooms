@@ -5,13 +5,14 @@ let buildingsTable, roomsTable, employeesTable, bookingsTable = null;
 //StartUp
 $(document).ready(() => {
     //*****Datetime picker init*****//
-    $('#inputBookingBookedFrom').datetimepicker({ format: 'DD/MM/YYYY HH:mm' });
-    $('#inputBookingBookedTo').datetimepicker({ useCurrent: false, format: 'DD/MM/YYYY HH:mm' });
+    $('#inputBookingBookedFrom').datetimepicker({ format: 'DD/MM/YYYY HH:mm', minDate: new Date() });
+    $('#inputBookingBookedTo').datetimepicker({ format: 'DD/MM/YYYY HH:mm', minDate: new Date() });
     $("#inputBookingBookedFrom").on("change.datetimepicker", function (e) {
-        $('#inputBookingBookedTo').datetimepicker('minDate', e.date);
-    });
-    $("#inputBookingBookedTo").on("change.datetimepicker", function (e) {
-        $('#inputBookingBookedFrom').datetimepicker('maxDate', e.date);
+        $('#inputBookingBookedTo').val('');
+        if ($("#inputBookingBookedFrom").val() != "")
+            $('#inputBookingBookedTo').datetimepicker('minDate', $("#inputBookingBookedFrom").val());
+        else
+            $('#inputBookingBookedTo').datetimepicker('minDate', new Date());
     });
     //*****Tables Init*****//
     buildingsTable = $('#buildings-table').DataTable({ "pagingType": "simple_numbers", "searching": false });
@@ -29,6 +30,8 @@ $(document).ready(() => {
         $(this).removeClass('is-valid');
         $(this).removeClass('is-invalid');
     });
+    //*****Search Bar*****//
+    $("#search-bar").on("keyup", search);
 });
 //**********************************************************************
 //      BUILDING
@@ -38,7 +41,7 @@ function getBuildings() {
         .done((buildings) => {
         buildingsTable.clear();
         $("#inputRoomBuildings").empty();
-        $('#inputRoomBuildings').append('<option value=0 selected="selected">Seleziona..</option>');
+        $('#inputRoomBuildings').append('<option value=0 selected="selected"></option>');
         $.each(buildings, (key, item) => {
             buildingsTable.row.add([
                 item.Id,
@@ -50,6 +53,7 @@ function getBuildings() {
             $('#inputRoomBuildings').append('<option value=' + item.Id + '>' + item.Name + '</option>');
         });
         buildingsTable.draw();
+        sortDropdownValue("inputRoomBuildings");
     })
         .fail(function (jqXHR, textStatus, err) {
         alertMsg("DANGER", "Si � verificato un errore nel caricamento degli edifici", 0);
@@ -120,7 +124,7 @@ function getRooms() {
         .done((rooms) => {
         roomsTable.clear();
         $('#inputBookingRoom').empty();
-        $('#inputBookingRoom').append('<option value=0 selected="selected">Seleziona..</option>');
+        $('#inputBookingRoom').append('<option value=0 selected="selected"></option>');
         $.each(rooms, (key, item) => {
             roomsTable.row.add([
                 item.Id,
@@ -131,6 +135,7 @@ function getRooms() {
             $('#inputBookingRoom').append('<option value=' + item.Id + '>' + item.Name + '</option>');
         });
         roomsTable.draw();
+        sortDropdownValue("inputBookingRoom");
     })
         .fail(function (jqXHR, textStatus, err) {
         alertMsg("DANGER", "Si � verificato un errore nel caricamento delle sale", 0);
@@ -210,7 +215,7 @@ function getEmployees() {
         .done((employees) => {
         employeesTable.clear();
         $('#inputBookingEmployee').empty();
-        $('#inputBookingEmployee').append('<option value=0 selected="selected">Seleziona..</option>');
+        $('#inputBookingEmployee').append('<option value=0 selected="selected"></option>');
         $.each(employees, (key, item) => {
             employeesTable.row.add([
                 item.Id,
@@ -223,6 +228,7 @@ function getEmployees() {
             $('#inputBookingEmployee').append('<option value=' + item.Id + '>' + item.Surname + ' ' + item.Name + ' (' + item.Username + ') </option>');
         });
         employeesTable.draw();
+        sortDropdownValue("inputBookingEmployee");
     })
         .fail(function (jqXHR, textStatus, err) {
         alertMsg("DANGER", "Si � verificato un errore nel caricamento delle risorse", 0);
@@ -301,7 +307,7 @@ function getBookings() {
                 new Date(item.BookedFrom).toLocaleString('it-IT'),
                 new Date(item.BookedTo).toLocaleString('it-IT'),
                 '<button type="button" class="btn btn-info btn-sm" onclick="getBookingById(' + item.Id + ')"><i class="fas fa-info-circle"></i> Detttagli</button>',
-                '<button type="button" class="btn btn-danger btn-sm onclick="deleteBooking(' + item.Id + ')"><i class="far fa-trash-alt"></i> Elimina</button>'
+                '<button type="button" class="btn btn-danger btn-sm" onclick="deleteBooking(' + item.Id + ')"><i class="far fa-trash-alt"></i> Elimina</button>'
             ]);
         });
         bookingsTable.draw();
@@ -386,6 +392,18 @@ function addBooking() {
         alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
     });
 }
+function deleteBooking(id) {
+    $.ajax({
+        type: "DELETE",
+        url: apiUri + '/booking/delete/' + id
+    }).done(function (data) {
+        //update bookings table
+        getBookings();
+        alertMsg("SUCCESS", "Prenotazione cancellata con successo", 0);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
+    });
+}
 //**********************************************************************
 //      UTILITIES
 //**********************************************************************
@@ -437,6 +455,8 @@ function showModal(id) {
     $("#inputBookingRoom").removeClass('is-valid');
     $("#inputBookingRoom").removeClass('is-invalid');
     $('#' + id).find('form')[0].reset();
+    //(<any>$('#inputBookingBookedFrom')).datetimepicker('minDate', new Date() );
+    //(<any>$('#inputBookingBookedTo')).datetimepicker('minDate', new Date() );
     $('#' + id).modal({ show: true });
 }
 function convertDate(date) {
@@ -445,5 +465,20 @@ function convertDate(date) {
     var data = new Date(Date.UTC(+dateParts[2].split(" ")[0], +dateParts[1] - 1, +dateParts[0], +timeParts[0], +timeParts[1]));
     console.log(data);
     return data;
+}
+function sortDropdownValue(id) {
+    var selectList = $('#' + id + ' option');
+    selectList.sort(function (x, y) {
+        // to change to descending order switch "<" for ">"
+        return $(x).text() > $(y).text() ? 1 : -1;
+    });
+    $('#' + id).html(selectList);
+}
+function search() {
+    let value = $('#search-bar').val().toString().toLowerCase();
+    $("#bookings-table tbody tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        return true;
+    });
 }
 //# sourceMappingURL=index.js.map

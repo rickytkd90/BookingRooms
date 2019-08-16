@@ -13,5 +13,6 @@ namespace BookingRooms.BL.Managers
         void InsertBooking(BookingDto booking);
         BookingDto GetBookingById(int id);
         IEnumerable<BookingDto> GetBookings();
+        void DeleteBooking(int id);
     }
 }

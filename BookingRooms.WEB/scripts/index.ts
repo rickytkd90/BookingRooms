@@ -10,14 +10,16 @@ $(document).ready(() => {
 
     //*****Datetime picker init*****//
 
-    (<any>$('#inputBookingBookedFrom')).datetimepicker({format: 'DD/MM/YYYY HH:mm'});
-    (<any>$('#inputBookingBookedTo')).datetimepicker({ useCurrent: false, format: 'DD/MM/YYYY HH:mm' });
+    (<any>$('#inputBookingBookedFrom')).datetimepicker({format: 'DD/MM/YYYY HH:mm', minDate: new Date() });
+
+    (<any>$('#inputBookingBookedTo')).datetimepicker({ format: 'DD/MM/YYYY HH:mm', minDate: new Date() });
 
     $("#inputBookingBookedFrom").on("change.datetimepicker", function (e) {
-        (<any>$('#inputBookingBookedTo')).datetimepicker('minDate', (<any>e).date);
-    });
-    $("#inputBookingBookedTo").on("change.datetimepicker", function (e) {
-        (<any>$('#inputBookingBookedFrom')).datetimepicker('maxDate', (<any>e).date);
+        $('#inputBookingBookedTo').val('');
+        if ($("#inputBookingBookedFrom").val() != "")
+            (<any>$('#inputBookingBookedTo')).datetimepicker('minDate', $("#inputBookingBookedFrom").val());
+        else
+            (<any>$('#inputBookingBookedTo')).datetimepicker('minDate', new Date());
     });
 
     //*****Tables Init*****//
@@ -41,6 +43,9 @@ $(document).ready(() => {
         $(this).removeClass('is-valid');
         $(this).removeClass('is-invalid');
     });
+
+    //*****Search Bar*****//
+    $("#search-bar").on("keyup", search);
 });
 
 //**********************************************************************
@@ -54,7 +59,7 @@ function getBuildings(): void {
 
             buildingsTable.clear();
             $("#inputRoomBuildings").empty();
-            $('#inputRoomBuildings').append('<option value=0 selected="selected">Seleziona..</option>');
+            $('#inputRoomBuildings').append('<option value=0 selected="selected"></option>');
 
             $.each(buildings, (key, item: BuildingDto) => {
 
@@ -72,6 +77,7 @@ function getBuildings(): void {
             });
 
             buildingsTable.draw();
+            sortDropdownValue("inputRoomBuildings");
 
         })
         .fail(function (jqXHR, textStatus, err) {
@@ -160,7 +166,7 @@ function getRooms(): void {
 
             roomsTable.clear();
             $('#inputBookingRoom').empty();
-            $('#inputBookingRoom').append('<option value=0 selected="selected">Seleziona..</option>');
+            $('#inputBookingRoom').append('<option value=0 selected="selected"></option>');
 
             $.each(rooms, (key, item: RoomDto) => {
 
@@ -178,6 +184,7 @@ function getRooms(): void {
             });
 
             roomsTable.draw();
+            sortDropdownValue("inputBookingRoom");
 
         })
         .fail(function (jqXHR, textStatus, err) {
@@ -275,7 +282,7 @@ function getEmployees() {
 
             employeesTable.clear();
             $('#inputBookingEmployee').empty();
-            $('#inputBookingEmployee').append('<option value=0 selected="selected">Seleziona..</option>');
+            $('#inputBookingEmployee').append('<option value=0 selected="selected"></option>');
 
             $.each(employees, (key, item: EmployeeDto) => {
 
@@ -294,6 +301,7 @@ function getEmployees() {
             });
 
             employeesTable.draw();
+            sortDropdownValue("inputBookingEmployee");
 
         })
         .fail(function (jqXHR, textStatus, err) {
@@ -392,7 +400,7 @@ function getBookings() {
                         new Date(item.BookedFrom).toLocaleString('it-IT'),
                         new Date(item.BookedTo).toLocaleString('it-IT'),
                         '<button type="button" class="btn btn-info btn-sm" onclick="getBookingById(' + item.Id + ')"><i class="fas fa-info-circle"></i> Detttagli</button>',
-                        '<button type="button" class="btn btn-danger btn-sm onclick="deleteBooking(' + item.Id + ')"><i class="far fa-trash-alt"></i> Elimina</button>'
+                        '<button type="button" class="btn btn-danger btn-sm" onclick="deleteBooking(' + item.Id + ')"><i class="far fa-trash-alt"></i> Elimina</button>'
                     ]
                 );
             });
@@ -496,6 +504,21 @@ function addBooking(): void {
     });
 }
 
+function deleteBooking(id: number): void {
+    $.ajax({
+        type: "DELETE",
+        url: apiUri + '/booking/delete/'+id
+    }).done(function (data) {
+
+        //update bookings table
+        getBookings();
+
+        alertMsg("SUCCESS", "Prenotazione cancellata con successo", 0);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
+    });
+}
+
 //**********************************************************************
 //      UTILITIES
 //**********************************************************************
@@ -565,4 +588,25 @@ function convertDate(date: string): Date {
     var data = new Date(Date.UTC(+dateParts[2].split(" ")[0], +dateParts[1] - 1, +dateParts[0], +timeParts[0], +timeParts[1]));
     console.log(data);
     return data;
+}
+
+function sortDropdownValue(id: string) {
+    var selectList = $('#'+id+' option');
+
+    (<any>selectList).sort(function (x, y) {
+        // to change to descending order switch "<" for ">"
+        return $(x).text() > $(y).text() ? 1 : -1;
+    });
+
+    $('#'+id).html(<any>selectList);
+}
+
+function search() {
+    let value: string = $('#search-bar').val().toString().toLowerCase();
+
+    $("#bookings-table tbody tr").filter(function () {
+
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        return true;
+    });
 }
