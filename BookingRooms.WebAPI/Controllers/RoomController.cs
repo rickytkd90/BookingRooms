@@ -44,6 +44,10 @@ namespace BookingRooms.WebAPI.Controllers
         public IHttpActionResult GetRoom(int id)
         {
             var result = _roomManager.GetRoomById(id);
+
+            if (result == null)
+                return NotFound();
+
             return Ok(result);
         }
 
@@ -59,8 +63,7 @@ namespace BookingRooms.WebAPI.Controllers
         [HttpGet]
         public IHttpActionResult GetRooms()
         {
-            var result = _roomManager.GetRooms();
-            return Ok(result);
+            return Ok(_roomManager.GetRooms());
         }
 
         /// <summary>
@@ -73,14 +76,23 @@ namespace BookingRooms.WebAPI.Controllers
         [Route("add")]
         [ResponseType(typeof(void))]
         [HttpPost]
-        public void InsertNewRoom(RoomDto room)
+        public IHttpActionResult InsertNewRoom(RoomDto room)
         {
-            
-            if (room != null && ModelState.IsValid)
-                _roomManager.InsertRoom(room);
-            else
-                throw new Exception("I valori indicati per la nuova sala non sono validi");
 
+            try
+            {
+                if (room != null && ModelState.IsValid)
+                {
+                    _roomManager.InsertRoom(room);
+                    return Ok();
+                }
+                else
+                    return BadRequest("I valori indicati per la nuova sala non sono validi");
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

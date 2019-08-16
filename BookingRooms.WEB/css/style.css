@@ -65,10 +65,7 @@ tr td {
     height: 100px;
     width: 100%;
 }
-/*tr td:first-child,
-tr td:last-child {
-    text-align: center;
-}*/
+
 /* Sort Icon Table Style */
 table.dataTable thead .sorting::before,
 table.dataTable thead .sorting_asc::before,

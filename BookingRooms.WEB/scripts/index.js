@@ -113,7 +113,7 @@ function addBuilding() {
         $('#ModalInsertBuilding').modal('toggle');
         alertMsg("SUCCESS", "Edificio inserito con successo", 0);
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
+        alertMsg("DANGER", JSON.parse(jqXHR.responseText).Message, 0);
     });
 }
 //**********************************************************************
@@ -204,7 +204,7 @@ function addRoom() {
         $('#ModalInsertRoom').modal('toggle');
         alertMsg("SUCCESS", "Sala inserita con successo", 0);
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
+        alertMsg("DANGER", JSON.parse(jqXHR.responseText).Message, 0);
     });
 }
 //**********************************************************************
@@ -289,7 +289,7 @@ function addEmployee() {
         $('#ModalInsertEmployee').modal('toggle');
         alertMsg("SUCCESS", "Risorsa inserita con successo", 0);
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
+        alertMsg("DANGER", JSON.parse(jqXHR.responseText).Message, 0);
     });
 }
 //**********************************************************************
@@ -401,7 +401,7 @@ function deleteBooking(id) {
         getBookings();
         alertMsg("SUCCESS", "Prenotazione cancellata con successo", 0);
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
+        alertMsg("DANGER", JSON.parse(jqXHR.responseText).Message, 0);
     });
 }
 //**********************************************************************
@@ -455,8 +455,6 @@ function showModal(id) {
     $("#inputBookingRoom").removeClass('is-valid');
     $("#inputBookingRoom").removeClass('is-invalid');
     $('#' + id).find('form')[0].reset();
-    //(<any>$('#inputBookingBookedFrom')).datetimepicker('minDate', new Date() );
-    //(<any>$('#inputBookingBookedTo')).datetimepicker('minDate', new Date() );
     $('#' + id).modal({ show: true });
 }
 function convertDate(date) {

@@ -53,7 +53,7 @@ namespace BookingRooms.BL.Managers
             try
             {
                 //check if exist room with the same name
-                var exist = _roomRepository.GetAll().Any(x => x.Name == r.Name);
+                var exist = _roomRepository.GetAll().Any(x => x.Name.ToLower() == r.Name.ToLower());
 
                 if (!exist)
                 {
@@ -74,7 +74,7 @@ namespace BookingRooms.BL.Managers
                 }
                 else
                 {
-                    throw new Exception($"E' già presente una stanza con nome {r.Name})");
+                    throw new Exception($"E' già presente una stanza con nome {r.Name}");
                 }
 
             }

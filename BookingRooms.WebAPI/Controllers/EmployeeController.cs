@@ -44,6 +44,10 @@ namespace BookingRooms.WebAPI.Controllers
         public IHttpActionResult GetEmployee(int id)
         {
             var result = _employeeManager.GetEmployeeById(id);
+
+            if (result == null)
+                return NotFound();
+
             return Ok(result);
         }
 
@@ -59,8 +63,7 @@ namespace BookingRooms.WebAPI.Controllers
         [HttpGet]
         public IHttpActionResult GetResources()
         {
-            var result = _employeeManager.GetEmployees();
-            return Ok(result);
+            return Ok(_employeeManager.GetEmployees());
         }
 
         /// <summary>
@@ -72,12 +75,22 @@ namespace BookingRooms.WebAPI.Controllers
         [Route("add")]
         [ResponseType(typeof(void))]
         [HttpPost]
-        public void InsertNewResource(EmployeeDto employee)
+        public IHttpActionResult InsertNewResource(EmployeeDto employee)
         {
-            if(employee != null && ModelState.IsValid)
-                _employeeManager.InsertEmployee(employee);
-            else
-                throw new Exception("I valori indicati per la nuova risorsa non sono validi");
+            try
+            {
+                if (employee != null && ModelState.IsValid)
+                {
+                    _employeeManager.InsertEmployee(employee);
+                    return Ok();
+                }
+                else
+                    return BadRequest("I valori indicati per la nuova risorsa non sono validi");
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

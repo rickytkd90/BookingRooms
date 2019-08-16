@@ -76,12 +76,22 @@ namespace BookingRooms.WebAPI.Controllers
         [Route("add")]
         [ResponseType(typeof(void))]
         [HttpPost]
-        public void InsertNewBuilding(BuildingDto building)
+        public IHttpActionResult InsertNewBuilding(BuildingDto building)
         {
-            if (building != null && ModelState.IsValid)
-                _buildingManager.InsertBuilding(building);
-            else
-                throw new Exception("I valori indicati per il nuovo edificio non sono validi");
+            try
+            {
+                if (building != null && ModelState.IsValid)
+                {
+                    _buildingManager.InsertBuilding(building);
+                    return Ok();
+                }
+                else
+                    return BadRequest("I valori indicati per il nuovo edificio non sono validi");
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
     }

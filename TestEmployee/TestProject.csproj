@@ -8,8 +8,8 @@
     <ProjectGuid>{CA292EC6-F9A7-4D58-988A-D704F692AE76}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestEmployee</RootNamespace>
-    <AssemblyName>TestEmployee</AssemblyName>
+    <RootNamespace>TestProject</RootNamespace>
+    <AssemblyName>TestProject</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -58,6 +58,10 @@
   <ItemGroup>
     <Compile Include="Employee\EmployeeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApiTest\BookingControllerTest.cs" />
+    <Compile Include="WebApiTest\RoomControllerTest.cs" />
+    <Compile Include="WebApiTest\BuildingControllerTest.cs" />
+    <Compile Include="WebApiTest\EmployeeControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -71,6 +75,10 @@
     <ProjectReference Include="..\BookingRooms.DAL\BookingRooms.DAL.csproj">
       <Project>{a41f982e-430a-4aa0-aada-8de42e765f18}</Project>
       <Name>BookingRooms.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BookingRooms.WebAPI\BookingRooms.WebAPI.csproj">
+      <Project>{6FE7733B-1D52-4674-9382-3046E654A75D}</Project>
+      <Name>BookingRooms.WebAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

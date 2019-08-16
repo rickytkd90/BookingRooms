@@ -60,9 +60,22 @@ namespace BookingRooms.WebAPI.Controllers
         [Route("add")]
         [ResponseType(typeof(void))]
         [HttpPost]
-        public void InsertNewBooking(BookingDto booking)
+        public IHttpActionResult InsertNewBooking(BookingDto booking)
         {
-            _bookingManager.InsertBooking(booking);
+            try
+            {
+                if (booking != null && ModelState.IsValid)
+                {
+                    _bookingManager.InsertBooking(booking);
+                    return Ok();
+                }
+                else
+                    return BadRequest("I valori indicati per la nuova prenotazione non sono validi");
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }               
         }
 
         /// <summary>
@@ -80,12 +93,28 @@ namespace BookingRooms.WebAPI.Controllers
             return Ok(_bookingManager.GetBookings());
         }
 
+        /// <summary>
+        /// Delete Booking
+        /// </summary>
+        /// <param name="id"></param>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("delete/{id:int}")]
         [ResponseType(typeof(void))]
         [HttpDelete]
-        public void DeleteBooking(int id)
+        public IHttpActionResult DeleteBooking(int id)
         {
-            _bookingManager.DeleteBooking(id);
+            try
+            {
+                _bookingManager.DeleteBooking(id);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
     }
 }

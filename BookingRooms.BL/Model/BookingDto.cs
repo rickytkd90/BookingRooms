@@ -14,14 +14,27 @@ namespace BookingRooms.BL.Model
     public class BookingDto
     {
         public int Id { get; set; }
+
+        [Required]
         public int EmployeeId { get; set; }
+
         public string EmployeeUsername { get; set; }
+
+        [Required]
         public int RoomId { get; set; }
-        public string RoomName { get; set; } 
+
+        public string RoomName { get; set; }
+
         public string Description { get; set; }
+
+        [Required]
         public DateTime BookedFrom { get; set; }
+
+        [Required]
         public DateTime BookedTo { get; set; }
+
         public DateTime CreatedOn { get; set; }
+
         public DateTime UpdatedOn { get; set; }
     }
 }

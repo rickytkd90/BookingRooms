@@ -151,7 +151,7 @@ function addBuilding(): void {
         alertMsg("SUCCESS", "Edificio inserito con successo", 0);
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
+        alertMsg("DANGER", JSON.parse(jqXHR.responseText).Message, 0);
     });
 }
 
@@ -267,7 +267,7 @@ function addRoom(): void {
         $('#ModalInsertRoom').modal('toggle');
         alertMsg("SUCCESS", "Sala inserita con successo", 0);
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
+        alertMsg("DANGER", JSON.parse(jqXHR.responseText).Message, 0);
     });
 }
 
@@ -375,7 +375,7 @@ function addEmployee(): void {
         $('#ModalInsertEmployee').modal('toggle');
         alertMsg("SUCCESS", "Risorsa inserita con successo", 0);
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
+        alertMsg("DANGER", JSON.parse(jqXHR.responseText).Message, 0);
     });
 }
 
@@ -515,7 +515,7 @@ function deleteBooking(id: number): void {
 
         alertMsg("SUCCESS", "Prenotazione cancellata con successo", 0);
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
+        alertMsg("DANGER", JSON.parse(jqXHR.responseText).Message, 0);
     });
 }
 

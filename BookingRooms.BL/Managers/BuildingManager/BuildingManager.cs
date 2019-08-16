@@ -52,7 +52,7 @@ namespace BookingRooms.BL.Managers
             try
             {
                 //check if exist building with the same name
-                var exist = _buildingRepository.GetAll().Any(x => x.Name == b.Name);
+                var exist = _buildingRepository.GetAll().Any(x => x.Name.ToLower() == b.Name.ToLower());
 
                 if (!exist)
                 {
