@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $(".nav-link,.dropdown-item").click(function () {
+    $(".nav-link,.dropdown-item,.homeButton").click(function () {
         var t = $(this).attr("href");
         $('.active').removeClass('active');
         $("html, body").animate({
