@@ -503,7 +503,7 @@ function addBooking(): void {
         $('#ModalInsertBooking').modal('toggle');
         alertMsg("SUCCESS", "Prenotazione inserita con successo", 0);
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        alertMsg("DANGER", jqXHR.responseJSON.ExceptionMessage, 0);
+        alertMsg("DANGER", JSON.parse(jqXHR.responseText).Message, 0);
     });
 }
 
