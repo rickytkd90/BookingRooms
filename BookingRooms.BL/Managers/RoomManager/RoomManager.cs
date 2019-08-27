@@ -69,12 +69,12 @@ namespace BookingRooms.BL.Managers
 
                     _roomRepository.Add(newR);
 
-                    LogManager.Debug($"Inserita nuova stanza (Name:{newR.Name})");
+                    LogManager.Debug($"Inserita nuova sala (Name:{newR.Name})");
 
                 }
                 else
                 {
-                    throw new Exception($"E' già presente una stanza con nome {r.Name}");
+                    throw new Exception($"E' già presente una sala con nome {r.Name}");
                 }
 
             }
@@ -92,7 +92,7 @@ namespace BookingRooms.BL.Managers
             if (r != null)
                 return MapTo(r);
 
-            LogManager.Warning($"Nessuna stanza trovata (id:{id})");
+            LogManager.Warning($"Nessuna sala trovata (id:{id})");
             return null;
         }
 

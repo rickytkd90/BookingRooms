@@ -82,7 +82,7 @@ function getBuildings(): void {
 
         })
         .fail(function (jqXHR, textStatus, err) {
-            alertMsg("DANGER", "Si è verificato un errore nel caricamento degli edifici", 0);
+            alertMsg("DANGER", "Si e' verificato un errore nel caricamento degli edifici", 0);
         });
 }
 
@@ -96,8 +96,8 @@ function getBuildingById(id: number): void {
                 + '<li><strong>Id:</strong> ' + item.Id + '</li>'
                 + '<li><strong>Nome:</strong> ' + item.Name + '</li>'
                 + '<li><strong>Indirizzo:</strong> ' + item.Address + '</li>'
-                + '<li><strong>Città:</strong> ' + item.City + '</li>'
-                + '<li><strong>Disponibile:</strong> ' + item.IsAvailable + '</li>'
+                + '<li><strong>Citta:</strong> ' + item.City + '</li>'
+                + '<li><strong>Disponibile:</strong> ' + ((item.IsAvailable) ? 'Si' : 'No') + '</li>'
                 + '<li><strong>Data Inserimento:</strong> ' + new Date(item.CreatedOn).toLocaleDateString('it-IT', optionsDate) + '</li>'
                 + '<li><strong>Data Aggiornamento:</strong> ' + new Date(item.UpdatedOn).toLocaleDateString('it-IT', optionsDate) + '</li>'
                 + '</ul>'
@@ -106,7 +106,7 @@ function getBuildingById(id: number): void {
             $('#ModalDetail').modal({ show: true });
         })
         .fail(function (jqXHR, textStatus, err) {
-            alertMsg("DANGER", "Si è verificato un errore nel caricamento dei dettagli dell'edificio", 0);
+            alertMsg("DANGER", "Si e' verificato un errore nel caricamento dei dettagli dell'edificio", 0);
         });
 }
 
@@ -190,7 +190,7 @@ function getRooms(): void {
 
         })
         .fail(function (jqXHR, textStatus, err) {
-            alertMsg("DANGER", "Si è verificato un errore nel caricamento delle sale", 0);
+            alertMsg("DANGER", "Si e' verificato un errore nel caricamento delle sale", 0);
         });
 }
 
@@ -205,7 +205,7 @@ function getRoomById(id: number): void {
                 + '<li><strong>Nome:</strong> ' + item.Name + '</li>'
                 + '<li><strong>Posti disponibili:</strong> ' + item.SeatsNumber + '</li>'
                 + '<li><strong>Edificio:</strong> ' + item.BuildingName + '</li>'
-                + '<li><strong>Disponibile:</strong> ' + item.IsAvailable + '</li>'
+                + '<li><strong>Disponibile:</strong> ' + ((item.IsAvailable) ? 'Si' : 'No') + '</li>'
                 + '<li><strong>Data Inserimento:</strong> ' + new Date(item.CreatedOn).toLocaleDateString('it-IT', optionsDate) + '</li>'
                 + '<li><strong>Data Aggiornamento:</strong> ' + new Date(item.UpdatedOn).toLocaleDateString('it-IT', optionsDate) + '</li>'
                 + '</ul>'
@@ -214,7 +214,7 @@ function getRoomById(id: number): void {
             $('#ModalDetail').modal({ show: true });
         })
         .fail(function (jqXHR, textStatus, err) {
-            alertMsg("DANGER", "Si è verificato un errore nel caricamento dei dettagli della sala", 0);
+            alertMsg("DANGER", "Si e' verificato un errore nel caricamento dei dettagli della sala", 0);
         });
 }
 
@@ -222,7 +222,7 @@ function addRoom(): void {
 
     //check values
     let isInvalid: boolean;
-    $("#ModalInsertRoomForm input[type=text], #ModalInsertRoomForm select").each(function () {
+    $("#ModalInsertRoomForm input[type=text], #ModalInsertRoomForm input[type=number], #ModalInsertRoomForm select").each(function () {
         if (!$(this).val()) {
             $(this).removeClass('is-valid')
             $(this).addClass('is-invalid')
@@ -242,6 +242,16 @@ function addRoom(): void {
     else {
         $("#inputRoomBuildings").removeClass('is-invalid')
         $("#inputRoomBuildings").addClass('is-valid')
+    }
+
+    if ($("#inputRoomSeatsNumber").val() <= 0) {
+        isInvalid = true;
+        $("#inputRoomSeatsNumber").addClass('is-invalid')
+        $("#inputRoomSeatsNumber").removeClass('is-valid')
+    }
+    else {
+        $("#inputRoomSeatsNumber").removeClass('is-invalid')
+        $("#inputRoomSeatsNumber").addClass('is-valid')
     }
 
     if (isInvalid) {
@@ -308,7 +318,7 @@ function getEmployees() {
 
         })
         .fail(function (jqXHR, textStatus, err) {
-            alertMsg("DANGER", "Si è verificato un errore nel caricamento delle risorse", 0);
+            alertMsg("DANGER", "Si e' verificato un errore nel caricamento delle risorse", 0);
         });
 }
 
@@ -324,7 +334,7 @@ function getEmployeeById(id: number): void {
                 + '<li><strong>Cognome:</strong> ' + item.Surname + '</li>'
                 + '<li><strong>Username:</strong> ' + item.Username + '</li>'
                 + '<li><strong>Indirizzo Mail:</strong> ' + item.EmailAddress + '</li>'
-                + '<li><strong>Disponibile:</strong> ' + item.IsAvailable + '</li>'
+                + '<li><strong>Disponibile:</strong> ' + ((item.IsAvailable) ? 'Si' : 'No') + '</li>'
                 + '<li><strong>Data Inserimento:</strong> ' + new Date(item.CreatedOn).toLocaleDateString('it-IT', optionsDate) + '</li>'
                 + '<li><strong>Data Aggiornamento:</strong> ' + new Date(item.UpdatedOn).toLocaleDateString('it-IT', optionsDate) + '</li>'
                 + '</ul>'
@@ -333,7 +343,7 @@ function getEmployeeById(id: number): void {
             $('#ModalDetail').modal({ show: true });
         })
         .fail(function (jqXHR, textStatus, err) {
-            alertMsg("DANGER", "Si è verificato un errore nel caricamento dei dettagli della risorsa", 0);
+            alertMsg("DANGER", "Si e' verificato un errore nel caricamento dei dettagli della risorsa", 0);
         });
 }
 
@@ -341,7 +351,7 @@ function addEmployee(): void {
 
     //check values
     let isInvalid: boolean;
-    $("#ModalInsertEmployeeForm input[type=text], #ModalInsertEmployeeForm select").each(function () {
+    $("#ModalInsertEmployeeForm input[type=text], #ModalInsertEmployeeForm input[type=number], #ModalInsertEmployeeForm select").each(function () {
         if (!$(this).val()) {
             $(this).removeClass('is-valid')
             $(this).addClass('is-invalid')
@@ -412,7 +422,7 @@ function getBookings() {
 
         })
         .fail(function (jqXHR, textStatus, err) {
-            alertMsg("DANGER", "Si è verificato un errore nel caricamento delle prenotazioni", 0);
+            alertMsg("DANGER", "Si e' verificato un errore nel caricamento delle prenotazioni", 0);
         });
 
 }
@@ -438,7 +448,7 @@ function getBookingById(id: number): void {
             $('#ModalDetail').modal({ show: true });
         })
         .fail(function (jqXHR, textStatus, err) {
-            alertMsg("DANGER", "Si è verificato un errore nel caricamento dei dettagli della sala", 0);
+            alertMsg("DANGER", "Si e' verificato un errore nel caricamento dei dettagli della sala", 0);
         });
 }
 
