@@ -53,17 +53,22 @@ namespace BookingRooms.BL.Managers
         {
             try
             {
-                //check if the reservation already exists for the room
-                var exist = (
-                    _bookingRepository.GetAll()
-                    .Where(
-                        x => 
-                            x.RoomId == b.RoomId &&
-                            x.BookedFrom >= b.BookedFrom && 
-                            x.BookedTo <= b.BookedTo 
-                     ).Count()) > 0;
+                //check date
+                if ((b.BookedFrom == b.BookedTo)||(b.BookedTo < b.BookedFrom))
+                    throw new Exception($"Impossibile inserire la prenotazione. Periodo di prenotazione non valido");
 
-                //insert the riservation if room is available
+                //check if the reservation already exists for the room
+                var exist = _bookingRepository.GetAll()
+                     .Any(
+                         x => x.RoomId == b.RoomId &&
+                         (
+                             (x.BookedFrom > b.BookedFrom && x.BookedFrom < b.BookedTo) || 
+                             (x.BookedTo > b.BookedFrom && x.BookedTo < b.BookedTo) ||
+                             (x.BookedFrom == b.BookedFrom && x.BookedTo == b.BookedTo)
+                         )
+                         );
+
+                //insert the reservation
                 if (!exist)
                 {
                     Booking newB = new Booking()
@@ -83,7 +88,7 @@ namespace BookingRooms.BL.Managers
                 }
                 else
                 {
-                    throw new Exception($"Impossibile inserire la prenotazione. La sala è già prenotata");
+                    throw new Exception($"Impossibile inserire la prenotazione. La sala {b.RoomName} è già prenotata nel periodo selezionato");
                 }
             }
             catch(Exception ex)

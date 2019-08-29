@@ -8,6 +8,6 @@ namespace BookingRooms.DAL.Repositories
 {
     public interface IEmployeeRepository : IRepository<Employee>
     {
-        int GetNewId();
+
     }
 }

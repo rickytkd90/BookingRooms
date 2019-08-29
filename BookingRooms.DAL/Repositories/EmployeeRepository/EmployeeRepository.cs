@@ -11,9 +11,5 @@ namespace BookingRooms.DAL.Repositories
 
         public EmployeeRepository(BookingRoomsEntities dbContext) : base(dbContext) {}
 
-        public int GetNewId()
-        {
-            return dbSet.Max(x => x.Id);
-        }
     }
 }

@@ -58,10 +58,6 @@
   <ItemGroup>
     <Compile Include="Employee\EmployeeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebApiTest\BookingControllerTest.cs" />
-    <Compile Include="WebApiTest\RoomControllerTest.cs" />
-    <Compile Include="WebApiTest\BuildingControllerTest.cs" />
-    <Compile Include="WebApiTest\EmployeeControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

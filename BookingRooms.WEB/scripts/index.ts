@@ -37,13 +37,6 @@ $(document).ready(() => {
     _self.getBuildings();
     _self.getEmployees();
 
-    //*****Form input utility*****//
-
-    $('input').change(function () {
-        $(this).removeClass('is-valid');
-        $(this).removeClass('is-invalid');
-    });
-
     //*****Search Bar*****//
     $("#search-bar").on("keyup", search);
 });
@@ -500,6 +493,7 @@ function addBooking(): void {
         data: JSON.stringify({
             EmployeeId: $('#inputBookingEmployee').val(),
             RoomId: $('#inputBookingRoom').val(),
+            RoomName: $('#inputBookingRoom option:selected').text(),
             Description: $('#inputBookingDescription').val(),
             BookedFrom: convertDate($('#inputBookingBookedFrom').val().toString()),
             BookedTo: convertDate($('#inputBookingBookedTo').val().toString()),

@@ -14,11 +14,11 @@ namespace BookingRooms.BL.Model
     {
         public int Id { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Room Name must be submitted")]
-        [StringLength(50, ErrorMessage = "Name length can't be more than 50")]
+        [Required(AllowEmptyStrings = false)]
+        [StringLength(50)]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Room Name must be submitted")]
+        [Required]
         public int SeatsNumber { get; set; }
 
         public int BuildingId { get; set; }

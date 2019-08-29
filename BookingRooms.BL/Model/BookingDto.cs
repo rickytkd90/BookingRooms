@@ -25,6 +25,7 @@ namespace BookingRooms.BL.Model
 
         public string RoomName { get; set; }
 
+        [StringLength(200)]
         public string Description { get; set; }
 
         [Required]
