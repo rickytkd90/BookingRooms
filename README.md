@@ -13,9 +13,9 @@ DBScript.sql
 La stringa di connessione presente all'interno dell'applicazione. Il nome del database è **BookingRooms**.
 Il database è già popolato con alcuni dati utilizzati nei test
 
-###Solution
+### Solution
 
-Per il debug dell'applicazione è necessario impostare il progetto *BookingRooms.WebAPI** e il progetto **BookingRooms.WEB** come **StartUp Projects** dalle properties della solution.
+Per il debug dell'applicazione è necessario impostare il progetto **BookingRooms.WebAPI** e il progetto **BookingRooms.WEB** come **StartUp Projects** dalle properties della solution.
 
 ### Librerie da NPM
 
