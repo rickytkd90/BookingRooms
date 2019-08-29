@@ -30,3 +30,7 @@ npm install
 ```
 
 all'interno del progetto **BookingRooms.WEB**.
+
+### Swagger
+
+la documentazione relativa alle API è accessibile avviando il progetto **BookingRooms.WebAPI** e aggiungento all'url **/swagger/ui/index**
