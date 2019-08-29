@@ -37,4 +37,4 @@ la documentazione relativa alle API è accessibile avviando il progetto **Bookin
 
 ### LOG
 
-I log dell'applicazione vengono scritti nella folder **Log** che si trova al livello dello folder della solution
+I log dell'applicazione vengono scritti nella folder **Log** che si trova al livello della folder della solution
