@@ -39,7 +39,7 @@ Lo script per la creazione del database è presente nello ZIP inviato e nella re
 DBScript.sql
 ```
 
-Esegueno lo script ci creazione, il database verrà creato e popolato con alcuni dati utilizzati durante i test.
+Esegueno lo script di creazione, il database verrà creato e popolato con alcuni dati utilizzati durante i test.
 
 ## Librerie da NPM
 
@@ -49,7 +49,7 @@ Sono state utilizzate librerie di terze parti che devono essere scaricate tramit
 npm install
 ```
 
-all'interno del progetto **BookingRooms.WEB**.
+da eseguire all'interno del progetto **BookingRooms.WEB**.
 
 ## Swagger
 
@@ -61,5 +61,5 @@ La documentazione relativa alle API è accessibile avviando il progetto **Bookin
 
 ## LOG
 
-I log dell'applicazione vengono scritti nella folder **Log** che si trova al livello della folder della solution.
-Per la lettura dei log si consiglia l'utilizzo di [YALV! - Yet Another Log4Net Viewer](https://github.com/LukePet/YALV)
+I log dell'applicazione vengono scritti nella folder **Log** che si trova al primo livello della folder della solution.
+Per la loro lettura si consiglia l'utilizzo di [YALV! - Yet Another Log4Net Viewer](https://github.com/LukePet/YALV)
