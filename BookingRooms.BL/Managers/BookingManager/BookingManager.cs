@@ -62,8 +62,9 @@ namespace BookingRooms.BL.Managers
                      .Any(
                          x => x.RoomId == b.RoomId &&
                          (
-                             (x.BookedFrom > b.BookedFrom && x.BookedFrom < b.BookedTo) || 
-                             (x.BookedTo > b.BookedFrom && x.BookedTo < b.BookedTo) ||
+                             (x.BookedFrom >= b.BookedFrom && x.BookedFrom < b.BookedTo) ||
+                             (x.BookedTo > b.BookedFrom && x.BookedTo <= b.BookedTo) ||
+                             (x.BookedFrom < b.BookedFrom && x.BookedTo > b.BookedTo) ||
                              (x.BookedFrom == b.BookedFrom && x.BookedTo == b.BookedTo)
                          )
                          );
