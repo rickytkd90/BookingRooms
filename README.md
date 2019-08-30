@@ -51,6 +51,15 @@ npm install
 
 da eseguire all'interno del progetto **BookingRooms.WEB**.
 
+## Pacchetti Nuget
+
+Eseguire il restore dei pacchetti della solution. Se all'avvio del progetto **BookingRooms.WebAPI** ci fossero dei problemi, dalla console di nuget eseguire il comando: 
+
+```
+cd .\BookingRooms.WebAPI
+Update-Package Microsoft.CodeDom.Providers.DotNetCompilerPlatform -r
+```
+
 ## Swagger
 
 La documentazione relativa alle API è accessibile avviando il progetto **BookingRooms.WebAPI** e aggiungento all'url
