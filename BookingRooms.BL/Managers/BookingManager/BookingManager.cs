@@ -124,9 +124,9 @@ namespace BookingRooms.BL.Managers
             }
             catch(Exception ex)
             {
-                LogManager.Error($"Impossibile cancellare la prenotazione (id:{id}");
+                LogManager.Error($"Impossibile cancellare la prenotazione (id:{id})");
                 LogManager.Error(ex);
-                throw ex;
+                throw new Exception($"Impossibile cancellare la prenotazione (id:{id})");
             }
         }
     }

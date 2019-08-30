@@ -74,7 +74,7 @@ namespace BookingRooms.WebAPI.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest(ex.Message);
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }               
         }
 
@@ -112,7 +112,7 @@ namespace BookingRooms.WebAPI.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest(ex.Message);
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
         }
     }
