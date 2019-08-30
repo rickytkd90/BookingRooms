@@ -69,12 +69,12 @@ namespace BookingRooms.BL.Managers
 
                     _roomRepository.Add(newR);
 
-                    LogManager.Debug($"Inserita nuova sala (Name:{newR.Name})");
+                    LogManager.Debug($"Inserita nuova sala (Nome:{newR.Name}, Sedute:{newR.SeatsNumber})");
 
                 }
                 else
                 {
-                    throw new Exception($"E' già presente una sala con nome {r.Name}");
+                    throw new Exception($"E' già presente una sala con nome '{r.Name}'");
                 }
 
             }

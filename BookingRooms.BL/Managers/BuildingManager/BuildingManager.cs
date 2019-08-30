@@ -68,11 +68,11 @@ namespace BookingRooms.BL.Managers
 
                     _buildingRepository.Add(newB);
 
-                    LogManager.Debug($"Inserito nuovo edificio (Name:{newB.Name}, Address:{newB.Address}, City:{newB.City})");
+                    LogManager.Debug($"Inserito nuovo edificio (Nome:{newB.Name}, Indirizzo:{newB.Address}, Citta':{newB.City})");
                 }
                 else
                 {
-                    throw new Exception($"E' già presente un edificio con nome {b.Name}");
+                    throw new Exception($"E' già presente un edificio con nome '{b.Name}'");
                 }
             }
             catch(Exception ex)

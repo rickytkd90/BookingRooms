@@ -60,13 +60,14 @@ namespace BookingRooms.BL.Managers
                 //check if the reservation already exists for the room
                 var exist = _bookingRepository.GetAll()
                      .Any(
-                         x => x.RoomId == b.RoomId &&
-                         (
-                             (x.BookedFrom >= b.BookedFrom && x.BookedFrom < b.BookedTo) ||
-                             (x.BookedTo > b.BookedFrom && x.BookedTo <= b.BookedTo) ||
-                             (x.BookedFrom < b.BookedFrom && x.BookedTo > b.BookedTo) ||
-                             (x.BookedFrom == b.BookedFrom && x.BookedTo == b.BookedTo)
-                         )
+                         x => 
+                            x.RoomId == b.RoomId &&
+                            (
+                                (x.BookedFrom >= b.BookedFrom && x.BookedFrom < b.BookedTo) ||
+                                (x.BookedTo > b.BookedFrom && x.BookedTo <= b.BookedTo) ||
+                                (x.BookedFrom < b.BookedFrom && x.BookedTo > b.BookedTo) ||
+                                (x.BookedFrom == b.BookedFrom && x.BookedTo == b.BookedTo)
+                            )
                          );
 
                 //insert the reservation
@@ -85,11 +86,11 @@ namespace BookingRooms.BL.Managers
 
                     _bookingRepository.Add(newB);
 
-                    LogManager.Debug($"Inserita nuova prenotazione: (RoomId:{newB.RoomId}, From:{newB.BookedFrom}, To:{newB.BookedTo})");
+                    LogManager.Debug($"Inserita nuova prenotazione: (RoomId:{newB.RoomId}, Da:{newB.BookedFrom}, A:{newB.BookedTo})");
                 }
                 else
                 {
-                    throw new Exception($"Impossibile inserire la prenotazione. La sala {b.RoomName} è già prenotata nel periodo selezionato");
+                    throw new Exception($"Impossibile inserire la prenotazione. La sala '{b.RoomName}' è già prenotata nel periodo selezionato");
                 }
             }
             catch(Exception ex)

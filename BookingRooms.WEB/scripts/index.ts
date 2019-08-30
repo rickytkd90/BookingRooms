@@ -35,7 +35,7 @@ $(document).ready(() => {
     buildingsTable = (<any>$('#buildings-table')).DataTable({"pagingType": "simple_numbers","searching": false});
     roomsTable = (<any>$('#rooms-table')).DataTable({"pagingType": "simple_numbers","searching": false});
     employeesTable = (<any>$('#employees-table')).DataTable({"pagingType": "simple_numbers","searching": false});
-    bookingsTable = (<any>$('#bookings-table')).DataTable({ "pagingType": "simple_numbers", "searching": false});
+    bookingsTable = (<any>$('#bookings-table')).DataTable({ "pagingType": "simple_numbers", "searching": true});
     $('.dataTables_length').addClass('bs-select');
 
     //*****Tables Get Data*****//
@@ -45,8 +45,6 @@ $(document).ready(() => {
     _self.getBuildings();
     _self.getEmployees();
 
-    //*****Search Bar*****//
-    $("#search-bar").on("keyup", search);
 });
 
 //**********************************************************************
@@ -60,7 +58,7 @@ function getBuildings(): void {
 
             buildingsTable.clear();
             $("#inputRoomBuildings").empty();
-            $('#inputRoomBuildings').append('<option value=0 selected="selected"></option>');
+            $('#inputRoomBuildings').append('<option value=0 selected>Seleziona..</option>');
 
             $.each(buildings, (key, item: BuildingDto) => {
 
@@ -168,7 +166,7 @@ function getRooms(): void {
 
             roomsTable.clear();
             $('#inputBookingRoom').empty();
-            $('#inputBookingRoom').append('<option value=0 selected="selected"></option>');
+            $('#inputBookingRoom').append('<option value=0 selected>Seleziona..</option>');
 
             $.each(rooms, (key, item: RoomDto) => {
 
@@ -295,7 +293,7 @@ function getEmployees() {
 
             employeesTable.clear();
             $('#inputBookingEmployee').empty();
-            $('#inputBookingEmployee').append('<option value=0 selected="selected"></option>');
+            $('#inputBookingEmployee').append('<option value=0 selected>Seleziona..</option>');
 
             $.each(employees, (key, item: EmployeeDto) => {
 
@@ -614,14 +612,4 @@ function sortDropdownValue(id: string) {
     });
 
     $('#'+id).html(<any>selectList);
-}
-
-function search() {
-    let value: string = $('#search-bar').val().toString().toLowerCase();
-
-    $("#bookings-table tbody tr").filter(function () {
-
-        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-        return true;
-    });
 }

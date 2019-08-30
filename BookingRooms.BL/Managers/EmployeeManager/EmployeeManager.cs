@@ -96,7 +96,7 @@ namespace BookingRooms.BL.Managers
             name = Regex.Replace(name, @"[^0-9a-zA-Z]+", "").Trim().ToLower();
 
             var us1 = (surname.Length >= 5) ? surname.Substring(0, 5) : surname;
-            var us2 = name.Substring(0, 2);
+            var us2 = (name.Length >= 2) ? name.Substring(0, 2) : name;
             var us3 = 1;
 
             while (true)
