@@ -10,9 +10,17 @@ $(document).ready(() => {
 
     //*****Datetime picker init*****//
 
-    (<any>$('#inputBookingBookedFrom')).datetimepicker({format: 'DD/MM/YYYY HH:mm', minDate: new Date() });
+    (<any>$('#inputBookingBookedFrom')).datetimepicker({
+        format: 'DD/MM/YYYY HH:mm',
+        minDate: new Date(),
+        icons: { time: 'far fa-clock'}
+    });
 
-    (<any>$('#inputBookingBookedTo')).datetimepicker({ format: 'DD/MM/YYYY HH:mm', minDate: new Date() });
+    (<any>$('#inputBookingBookedTo')).datetimepicker({
+        format: 'DD/MM/YYYY HH:mm',
+        minDate: new Date(),
+        icons: { time: 'far fa-clock' }
+    });
 
     $("#inputBookingBookedFrom").on("change.datetimepicker", function (e) {
         $('#inputBookingBookedTo').val('');
